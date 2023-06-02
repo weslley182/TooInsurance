@@ -21,7 +21,8 @@
 *.zip
 *.vsidx
 *.pdb
-.suo
+*.suo
+*.v2
 
 # Logs and databases #
 ######################

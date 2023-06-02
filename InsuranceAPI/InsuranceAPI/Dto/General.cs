@@ -4,7 +4,7 @@ namespace InsuranceAPI.Dto
 {
     public class General
     {
-        [JsonPropertyName("Endereço")]
+        [JsonPropertyName("Endereco")]
         public Address? Address { get; set; }
         
         [JsonPropertyName("Inquilino")]

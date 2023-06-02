@@ -21,7 +21,7 @@ Payload_1
 {
     "produto": 111,
     "item":{
-        "endereço": {
+        "endereco": {
             "rua": "rua x",
             "numero": 123
         },

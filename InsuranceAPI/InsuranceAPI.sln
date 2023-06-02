@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InsuranceAPI", "InsuranceAPI\InsuranceAPI.csproj", "{75001128-8D20-4018-A2B0-D878F6DBE7B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBaseModel", "DataBaseModel\DataBaseModel.csproj", "{F6A96A01-066A-4982-BB1D-968411A3846E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{75001128-8D20-4018-A2B0-D878F6DBE7B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75001128-8D20-4018-A2B0-D878F6DBE7B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75001128-8D20-4018-A2B0-D878F6DBE7B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75001128-8D20-4018-A2B0-D878F6DBE7B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6A96A01-066A-4982-BB1D-968411A3846E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6A96A01-066A-4982-BB1D-968411A3846E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6A96A01-066A-4982-BB1D-968411A3846E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6A96A01-066A-4982-BB1D-968411A3846E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0A01392C-01A0-4E5D-AE05-21F93E429721}
+	EndGlobalSection
+EndGlobal

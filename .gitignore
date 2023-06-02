@@ -23,6 +23,7 @@
 *.pdb
 *.suo
 *.v2
+*.db-wal
 
 # Logs and databases #
 ######################

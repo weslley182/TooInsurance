@@ -17,13 +17,13 @@ public class MessageRepository: IMessageRepository
     {
         try
         {
-            var returnId = await _context.Messages.AddAsync(Message);
+            var returnModel = await _context.Messages.AddAsync(Message);
             await _context.SaveChangesAsync();
-            return returnId.Entity.Id;
+            return returnModel.Entity.Id;
         }
         catch (Exception e)
         {
-            throw new Exception("Error on create Movie: " + e.Message);
+            throw new Exception("Error on create Message: " + e.Message);
         }
     }
 

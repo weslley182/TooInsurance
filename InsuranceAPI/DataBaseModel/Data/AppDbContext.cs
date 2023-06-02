@@ -25,8 +25,7 @@ public class AppDbContext: DbContext
                 .Build();
             var connectionString = configuration.GetConnectionString("InsuranceAPIConnection");
             optionsBuilder.UseSqlite(connectionString);
-        }
-        //optionsBuilder.UseSqlite("DataSource=app.db; Cache=Shared");
+        }        
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

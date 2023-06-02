@@ -13,13 +13,13 @@ public class MessageRepository: IMessageRepository
     {
         _context = context;
     }
-    public async Task Add(MessageModel Message)
+    public async Task<int> Add(MessageModel Message)
     {
         try
         {
             var returnId = await _context.Messages.AddAsync(Message);
             await _context.SaveChangesAsync();
-            //return returnId.ToString();
+            return returnId.Entity.Id;
         }
         catch (Exception e)
         {

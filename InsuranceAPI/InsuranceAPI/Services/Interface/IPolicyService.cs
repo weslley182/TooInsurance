@@ -4,6 +4,6 @@ namespace InsuranceAPI.Services.Interface
 {
     public interface IPolicyService
     {
-        Task SendPolicy(Policy policy);        
+        Task SendPolicy(Policy policy);
     }
 }

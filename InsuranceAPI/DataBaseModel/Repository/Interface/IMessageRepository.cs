@@ -5,5 +5,5 @@ namespace DataBaseModel.Repository.Interface;
 public interface IMessageRepository
 {
     Task<List<MessageModel>> GetAllAsync();
-    Task Add(MessageModel message);
+    Task<int> Add(MessageModel message);
 }

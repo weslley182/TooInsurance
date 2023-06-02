@@ -15,5 +15,7 @@ namespace InsuranceAPI.Dto
         [Required]
         [JsonPropertyName("Valores")]
         public Amount Values { get; set; }
+
+        public int MessageId { get; set; }
     }
 }

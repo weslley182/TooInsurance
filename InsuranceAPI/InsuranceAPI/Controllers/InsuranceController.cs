@@ -41,8 +41,9 @@ public class InsuranceController: ControllerBase
         };
         
 
-        //var returnId = await _repo.Add(newMessage);
-        await _repo.Add(newMessage);
+        
+        var messageId = await _repo.Add(newMessage);
+        policy.MessageId = messageId;
         await _policyService.SendPolicy(policy);
 
         return Ok();

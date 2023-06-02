@@ -20,12 +20,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IPolicyService, PolicyService>();
 
 var libraryConfig = new ConfigurationBuilder()
-    .SetBasePath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
-    .AddJsonFile("appsettings.json")
-    .Build();
+        .SetBasePath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
+        .AddJsonFile("appsettings.json")
+        .Build();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
+    options.UseSqlite("DataSource=../DataBaseModel/app.db; Cache=Shared");
     options.UseSqlite(libraryConfig.GetConnectionString("InsuranceAPIConnectionRelativePath"));
 });
 

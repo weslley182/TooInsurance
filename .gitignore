@@ -36,6 +36,11 @@
 *.build.json
 *.props
 *.targets
+*.testlog
+*.BuildWithSkipAnalyzers
+*.tmp
+*.dgspec.json
+*assets.json
 
 # Logs and databases #
 ######################

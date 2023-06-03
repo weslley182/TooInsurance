@@ -10,14 +10,14 @@ namespace InsuranceAPI.Tests;
 
 public class InsuranceMockData
 {
-    public static async Task CreateCategories(InsuranceApiApplication application, bool create)
+    public static async Task CreateMessages(InsuranceApiApplication application, bool create)
     {
         using (var scope = application.Services.CreateScope())
         {
             var provider = scope.ServiceProvider;
             using (var dbContext = provider.GetRequiredService<AppDbContext>())
             {
-                var address = new Address() { Street = "Street Figher", Number = 6 };
+                var address = new Address() { Street = "Street Fighter", Number = 6 };
                 var legalPerson = new LegalPerson() { Name = "Capcom Inc", FedTaxIdNumber = 67076672030 };
                 var physicalPerson = new PhysicalPerson() { Name = "Ken Masters", TaxIdNumber = 71679717000150 };
                 var homeItem = new GeneralDto() { Address = address, Tenant = physicalPerson, Recipient = legalPerson };
@@ -34,10 +34,12 @@ public class InsuranceMockData
                 if (create)
                 {
                     await dbContext.Messages.AddAsync(new MessageModel
-                        { Id = 1, Model = JsonSerializer.Serialize(homeInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull}) });
+                        { Id = 1, Model = JsonSerializer.Serialize(homeInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull }) }
+                    );
 
                     await dbContext.Messages.AddAsync(new MessageModel
-                        { Id = 2, Model = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull }) });
+                        { Id = 2, Model = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull }) }
+                    );
 
                     await dbContext.SaveChangesAsync();
                 }

@@ -35,6 +35,7 @@
 *.MvcApplicationPartsAssemblyInfo.cs
 *.build.json
 *.props
+*.targets
 
 # Logs and databases #
 ######################

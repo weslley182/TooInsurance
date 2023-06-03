@@ -2,7 +2,7 @@
 
 namespace InsuranceAPI.Dto
 {
-    public class Amount
+    public class AmountDto
     {
         [JsonPropertyName("PrecoTotal")]
         public double Total { get; set; }

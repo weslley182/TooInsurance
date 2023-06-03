@@ -2,7 +2,7 @@
 
 namespace InsuranceAPI.Dto
 {
-    public class General
+    public class GeneralDto
     {
         [JsonPropertyName("Endereco")]
         public Address? Address { get; set; }

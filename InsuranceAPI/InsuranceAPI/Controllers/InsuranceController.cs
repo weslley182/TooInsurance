@@ -28,7 +28,7 @@ public class InsuranceController: ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> SendInsuranceAsync([FromBody] Policy policy)
+    public async Task<ActionResult> SendInsuranceAsync([FromBody] PolicyDto policy)
     {
         if (!ModelState.IsValid)
         {
@@ -39,8 +39,6 @@ public class InsuranceController: ControllerBase
         {
             Model = JsonSerializer.Serialize(policy)
         };
-        
-
         
         var messageId = await _repo.Add(newMessage);
         policy.MessageId = messageId;

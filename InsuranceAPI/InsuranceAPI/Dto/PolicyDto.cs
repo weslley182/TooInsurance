@@ -3,18 +3,18 @@ using System.Text.Json.Serialization;
 
 namespace InsuranceAPI.Dto
 {
-    public class Policy
+    public class PolicyDto
     {
         [Required]
         [JsonPropertyName("Produto")]
         public int Product { get; set; }
 
         [JsonPropertyName("Item")]
-        public General Item { get; set; }
+        public GeneralDto Item { get; set; }
         
         [Required]
         [JsonPropertyName("Valores")]
-        public Amount Values { get; set; }        
+        public AmountDto Values { get; set; }        
         
         public int MessageId { get; set; }
     }

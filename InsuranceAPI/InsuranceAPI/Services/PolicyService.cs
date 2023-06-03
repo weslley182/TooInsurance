@@ -19,7 +19,7 @@ namespace InsuranceAPI.Services
                 .AddJsonFile("appsettings.json", false, false)
                 .Build();
         }
-        public async Task SendPolicy(Policy policy)
+        public async Task SendPolicy(PolicyDto policy)
         {
             try
             {                
@@ -27,13 +27,13 @@ namespace InsuranceAPI.Services
             }
             catch (Exception e)
             {
-                throw new Exception("Error: " + e.Message);
+                throw new Exception("Error to send queue: " + e.Message);
             }
         }        
 
-        private void Send(Policy policy)
+        private void Send(PolicyDto policy)
         {            
-            var host = _configuration.GetValue<string>("RabbitMQ:Hostname");
+            var host = _configuration.GetValue<string>("RabbitMQ:Hostname");            
             var factory = new ConnectionFactory() { HostName = host };
             var connection = factory.CreateConnection();
             var channel = connection.CreateModel();

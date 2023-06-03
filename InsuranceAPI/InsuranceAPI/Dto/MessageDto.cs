@@ -1,6 +1,6 @@
 ﻿namespace InsuranceAPI.Dto
 {
-    public class Message
+    public class MessageDto
     {
         public string Text { get; set; }
     }

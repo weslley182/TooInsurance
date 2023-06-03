@@ -41,6 +41,7 @@
 *.tmp
 *.dgspec.json
 *assets.json
+*.manifest
 
 # Logs and databases #
 ######################

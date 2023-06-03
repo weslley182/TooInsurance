@@ -3,9 +3,7 @@ using InsuranceAPI.Dto;
 using InsuranceAPI.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
-using System.Text;
 using DataBaseModel.Model;
-using System;
 using System.Text.Json.Serialization;
 
 namespace InsuranceAPI.Controllers;

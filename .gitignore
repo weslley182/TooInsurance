@@ -25,6 +25,16 @@
 *.v2
 *.db-wal
 *.cache
+*.dylib
+*.FileListAbsolute.txt
+*.editorconfig
+*.runtimeconfig.json
+*.deps.json
+*.a
+*.CopyComplete
+*.MvcApplicationPartsAssemblyInfo.cs
+*.build.json
+*.props
 
 # Logs and databases #
 ######################

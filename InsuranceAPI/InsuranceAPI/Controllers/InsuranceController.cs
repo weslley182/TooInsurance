@@ -24,7 +24,8 @@ public class InsuranceController: ControllerBase
 
     [HttpPost]
     public async Task<ActionResult> SendInsuranceAsync([FromBody] PolicyDto policy)
-    {
+    {        
+
         if (!ModelState.IsValid)
         {
             return BadRequest();

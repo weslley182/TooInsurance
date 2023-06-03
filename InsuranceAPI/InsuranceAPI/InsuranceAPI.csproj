@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MassTransit" Version="8.0.16" />
+    <PackageReference Include="LinkDotNet.ValidationExtensions" Version="2.5.1" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.16" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Microsoft.Build.Tasks.Core" Version="17.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 

@@ -1,5 +1,5 @@
-﻿using InsuranceAPI.AnnotationsConfig;
-using InsuranceAPI.Constants;
+﻿using InsuranceAPI.Constants;
+using LinkDotNet.ValidationExtensions;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -12,6 +12,7 @@ namespace InsuranceAPI.Dto
         public int Product { get; set; }
 
         [JsonPropertyName("Item")]
+        [RequiredDynamic(nameof(ValidateRequired_ItemTest), ErrorMessagesConstants.ErrorMessageItem)]
         public GeneralDto Item { get; set; }
 
         [Required]
@@ -19,5 +20,11 @@ namespace InsuranceAPI.Dto
         public AmountDto Values { get; set; }
 
         public int? MessageId { get; set; }
+
+        public bool ValidateRequired_ItemTest(PolicyDto value)
+        {
+            var validation = new PolicyValidation();
+            return validation.ValidateRequired_Item(value);
+        }
     }
 }

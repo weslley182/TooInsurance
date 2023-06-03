@@ -131,17 +131,17 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
-            "MassTransit": {
+            "LinkDotNet.ValidationExtensions": {
               "target": "Package",
-              "version": "[8.0.16, )"
+              "version": "[2.5.1, )"
             },
             "MassTransit.RabbitMQ": {
               "target": "Package",
               "version": "[8.0.16, )"
             },
-            "Newtonsoft.Json": {
+            "Microsoft.Build.Tasks.Core": {
               "target": "Package",
-              "version": "[13.0.3, )"
+              "version": "[17.6.3, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

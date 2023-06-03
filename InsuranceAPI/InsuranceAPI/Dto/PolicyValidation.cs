@@ -6,6 +6,7 @@ namespace InsuranceAPI.Dto
     {
         public bool ValidateRequired_Item(PolicyDto value)
         {
+
             switch (value.Product)
             {
                 case RabbitConstants.CarInsuranceCod:

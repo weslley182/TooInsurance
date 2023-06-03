@@ -37,14 +37,18 @@ public class InsuranceController: ControllerBase
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
             });
 
-        var newMessage = new MessageModel()
+        var newMessage = new MessageModel() { Model = json };
+
+        try
         {
-            Model = json
-        };
-        
-        var messageId = await _repo.Add(newMessage);
-        policy.MessageId = messageId;
-        await _policyService.SendPolicy(policy);
+            var messageId = await _repo.Add(newMessage);
+            policy.MessageId = messageId;
+            await _policyService.SendPolicy(policy);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(503, ex.Message);
+        }
 
         return Ok();
     }

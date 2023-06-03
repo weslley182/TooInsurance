@@ -20,65 +20,60 @@ public class InsuranceControllerTests
     [Test]
     public async Task POST_Must_Create_Message()
     {
-        var counter = 0;
-        var carItem = new GeneralDto() { Model = "Fusca", Frame = 13253578, Plate = "CQB15153" };
-        var carParcel = new AmountDto() { Total = 5000, Parcel = 3 };
-        var carInsurance = new PolicyDto() { Product = RabbitConstants.CarInsuranceCod, Item = carItem, Values = carParcel };
+        var carInsurance = GetPolicy();
 
-        //_policyService.When(x => x.SendPolicy(carInsurance)).Do(x => counter++);
-
-        await InsuranceMockData.CreateMessages(_application, false);
         var url = "v1/Insurance";
-        var client = _application.CreateClient();
+        var client = BuildApp(url).Result;
 
+        var json = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
 
-        var teste = System.Text.Json.JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
-
-        var result = await client.PostAsync(url, new StringContent(teste, Encoding.UTF8, "application/json"));
+        var result = await client.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
 
         Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
     }
 
     [Test]
     public async Task POST_No_Product_Must_return_bad_request()
-    {     
-        var carItem = new GeneralDto() { Model = "Fusca", Frame = 13253578, Plate = "BSC1315" };
-        var carParcel = new AmountDto() { Total = 5000, Parcel = 3 };
-        var carInsurance = new PolicyDto() { Item = carItem, Values = carParcel };
+    {
+        var carInsurance = GetPolicy();
+        //carInsurance.Product = null;
 
-        //_policyService.When(x => x.SendPolicy(carInsurance)).Do(x => counter++);
-
-        await InsuranceMockData.CreateMessages(_application, false);
         var url = "v1/Insurance";
-        var client = _application.CreateClient();
+        var client = BuildApp(url).Result;
 
-
-        var teste = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
-
-        var result = await client.PostAsync(url, new StringContent(teste, Encoding.UTF8, "application/json"));
+        var json = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+        var result = await client.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
 
         Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
     }
 
     [Test]
     public async Task POST_No_Plate_Must_return_bad_request()
-    {     
-        var carItem = new GeneralDto() { Model = "Fusca", Frame = 13253578, Plate = "" };
-        var carParcel = new AmountDto() { Total = 5000, Parcel = 3 };
-        var carInsurance = new PolicyDto() { Product = RabbitConstants.CarInsuranceCod, Item = carItem, Values = carParcel };
+    {        
+        var carInsurance = GetPolicy();
+        carInsurance.Item.Plate = "";
 
-        //_policyService.When(x => x.SendPolicy(carInsurance)).Do(x => counter++);
-
-        await InsuranceMockData.CreateMessages(_application, false);
         var url = "v1/Insurance";
-        var client = _application.CreateClient();
+        var client = BuildApp(url).Result;
 
-
-        var teste = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
-
-        var result = await client.PostAsync(url, new StringContent(teste, Encoding.UTF8, "application/json"));
+        var json = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+        var result = await client.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
 
         Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
     }
+
+    private PolicyDto GetPolicy() 
+    {
+        var carItem = new GeneralDto() { Model = "Fusca", Frame = 13253578, Plate = "BSC13456" };
+        var carParcel = new AmountDto() { Total = 5000, Parcel = 3 };
+        return  new PolicyDto() { Product = RabbitConstants.CarInsuranceCod, Item = carItem, Values = carParcel };
+    }
+
+    private async Task<HttpClient>? BuildApp(string url)
+    {
+        await InsuranceMockData.CreateMessages(_application, false);    
+        return _application.CreateClient();
+    }
+
 
 }

@@ -24,7 +24,7 @@ public class InsuranceApiApplication : WebApplicationFactory<Program>
             services.AddDbContext<AppDbContext>(options =>
                 options.UseInMemoryDatabase("InsuranceAPIDatabase", root));
 
-            //services.TryAddScoped(serv => Substitute.For<IPolicyService>());
+            //policyServiceMock.Setup(p => p.SendPolicy()).Returns("Mocked value");
             services.AddScoped(serv => policyServiceMock.Object);
         });
 

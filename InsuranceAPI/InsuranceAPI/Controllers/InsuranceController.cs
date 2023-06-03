@@ -23,8 +23,8 @@ public class InsuranceController: ControllerBase
     [HttpGet]
     public async Task<ActionResult> GetAll()
     {
-        var movies = await _repo.GetAllAsync();
-        return !movies.Any() ? NotFound() : Ok(movies);
+        var messages = await _repo.GetAllAsync();
+        return !messages.Any() ? NotFound() : Ok(messages);
     }
 
     [HttpPost]

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using InsuranceAPI.AnnotationsConfig;
+using InsuranceAPI.Constants;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace InsuranceAPI.Dto
@@ -11,11 +13,11 @@ namespace InsuranceAPI.Dto
 
         [JsonPropertyName("Item")]
         public GeneralDto Item { get; set; }
-        
+
         [Required]
         [JsonPropertyName("Valores")]
-        public AmountDto Values { get; set; }        
-        
-        public int MessageId { get; set; }
+        public AmountDto Values { get; set; }
+
+        public int? MessageId { get; set; }
     }
 }

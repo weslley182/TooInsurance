@@ -4,7 +4,7 @@ using InsuranceAPI.Services.Interface;
 using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
-
+using System.Text.Json.Serialization;
 
 namespace InsuranceAPI.Services
 {
@@ -32,22 +32,33 @@ namespace InsuranceAPI.Services
         }        
 
         private void Send(PolicyDto policy)
-        {            
-            var host = _configuration.GetValue<string>("RabbitMQ:Hostname");            
-            var factory = new ConnectionFactory() { HostName = host };
-            var connection = factory.CreateConnection();
-            var channel = connection.CreateModel();
-
+        {
+            var channel = CreateConfiguration();
             CreateQueueConfig(channel);
 
-            string jsonString = JsonSerializer.Serialize(policy);
+            var jsonString = JsonSerializer.Serialize(policy,
+                new JsonSerializerOptions
+                {
+                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                    WriteIndented = true
+                });
+
             var body = Encoding.UTF8.GetBytes(jsonString);
-            
+
             channel.BasicPublish(
                 exchange: RabbitConstants.DefaultTooExchange,
                 routingKey: policy.Product.ToString(),
                 basicProperties: null,
                 body: body);
+        }
+
+        private IModel CreateConfiguration()
+        {
+            var host = _configuration.GetValue<string>("RabbitMQ:Hostname");
+            var factory = new ConnectionFactory() { HostName = host };
+            var connection = factory.CreateConnection();
+            var channel = connection.CreateModel();
+            return channel;
         }
 
         private void CreateQueueConfig(IModel channel)
@@ -73,12 +84,12 @@ namespace InsuranceAPI.Services
             channel.QueueBind(
                 queue: RabbitConstants.HomeInsuranceQueue,
                 exchange: RabbitConstants.DefaultTooExchange,
-                routingKey: RabbitConstants.HomeInsuranceCod);
+                routingKey: RabbitConstants.HomeInsuranceCod.ToString());
 
             channel.QueueBind(
                 queue: RabbitConstants.CarInsuranceQueue,
                 exchange: RabbitConstants.DefaultTooExchange,
-                routingKey: RabbitConstants.CarInsuranceCod);
+                routingKey: RabbitConstants.CarInsuranceCod.ToString());
         }
 
     }

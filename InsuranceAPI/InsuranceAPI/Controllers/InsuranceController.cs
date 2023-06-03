@@ -5,11 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using System.Text;
 using DataBaseModel.Model;
+using System;
+using System.Text.Json.Serialization;
 
 namespace InsuranceAPI.Controllers;
 
 [ApiController]
-[Route(template: "v1/Isurance")]
+[Route(template: "v1/Insurance")]
 public class InsuranceController: ControllerBase
 {
     private readonly IPolicyService _policyService;
@@ -18,14 +20,7 @@ public class InsuranceController: ControllerBase
     {
         _policyService = policyService;
         _repo = repo;
-    }
-
-    [HttpGet]
-    public async Task<ActionResult> GetAll()
-    {
-        var messages = await _repo.GetAllAsync();
-        return !messages.Any() ? NotFound() : Ok(messages);
-    }
+    }    
 
     [HttpPost]
     public async Task<ActionResult> SendInsuranceAsync([FromBody] PolicyDto policy)
@@ -35,9 +30,15 @@ public class InsuranceController: ControllerBase
             return BadRequest();
         }
 
+        var json = JsonSerializer.Serialize(policy,
+            new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            });
+
         var newMessage = new MessageModel()
         {
-            Model = JsonSerializer.Serialize(policy)
+            Model = json
         };
         
         var messageId = await _repo.Add(newMessage);

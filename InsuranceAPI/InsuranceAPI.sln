@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBaseModel", "DataBaseMo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InsuranceAPI.Tests", "InsuranceAPI.Tests\InsuranceAPI.Tests.csproj", "{EE08B313-75A8-4978-AB36-441348572FB0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeWorker", "HomeWorker\HomeWorker.csproj", "{AF326C89-8D4D-4880-A88C-67FA6A3DAE78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarWorker", "CarWorker\CarWorker.csproj", "{33D1F8E1-1B10-4344-BF5E-EE6368E50913}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{EE08B313-75A8-4978-AB36-441348572FB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE08B313-75A8-4978-AB36-441348572FB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE08B313-75A8-4978-AB36-441348572FB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF326C89-8D4D-4880-A88C-67FA6A3DAE78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF326C89-8D4D-4880-A88C-67FA6A3DAE78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF326C89-8D4D-4880-A88C-67FA6A3DAE78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF326C89-8D4D-4880-A88C-67FA6A3DAE78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33D1F8E1-1B10-4344-BF5E-EE6368E50913}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33D1F8E1-1B10-4344-BF5E-EE6368E50913}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33D1F8E1-1B10-4344-BF5E-EE6368E50913}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33D1F8E1-1B10-4344-BF5E-EE6368E50913}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

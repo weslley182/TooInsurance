@@ -47,4 +47,5 @@ HomeWorker
 
  ``` 
 ## Directories like that
- ![prompt](./images/directory.png)
+ ![prompt](./images/directory.PNG)
+ 

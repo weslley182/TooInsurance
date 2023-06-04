@@ -13,8 +13,7 @@ namespace InsuranceAPI.Tests;
 public class InsuranceApiApplication : WebApplicationFactory<Program>
 {
     protected override IHost CreateHost(IHostBuilder builder)
-    {
-        var policyServiceMock = new Mock<IPolicyService>();
+    {        
         var root = new InMemoryDatabaseRoot();
 
         builder.ConfigureServices(services =>
@@ -23,9 +22,6 @@ public class InsuranceApiApplication : WebApplicationFactory<Program>
 
             services.AddDbContext<AppDbContext>(options =>
                 options.UseInMemoryDatabase("InsuranceAPIDatabase", root));
-
-            //policyServiceMock.Setup(p => p.SendPolicy()).Returns("Mocked value");
-            services.AddScoped(serv => policyServiceMock.Object);
         });
 
         return base.CreateHost(builder);

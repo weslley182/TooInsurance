@@ -5,8 +5,7 @@ namespace InsuranceAPI.Dto
     public class PolicyValidation
     {
         public bool ValidateRequired_Item(PolicyDto value)
-        {
-
+        {            
             switch (value.Product)
             {
                 case RabbitConstants.CarInsuranceCod:
@@ -14,7 +13,7 @@ namespace InsuranceAPI.Dto
                 case RabbitConstants.HomeInsuranceCod:
                     return ValidateHomeInsurance(value);
                 default:
-                    return false;
+                    return true;
             }            
         }
 

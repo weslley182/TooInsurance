@@ -1,7 +1,7 @@
 
 # TooInsurance
 ## Diagram
-![solution](avalicao-tecnica-dados/diagrama_teste.png)
+![solution](./avalicao-tecnica-dados/doc/diagrama_teste.png)
 ## Rabbit info
  - User: guest
  - Password: guest

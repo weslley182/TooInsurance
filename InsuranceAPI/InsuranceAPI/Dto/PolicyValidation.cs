@@ -19,16 +19,16 @@ namespace InsuranceAPI.Dto
 
         private bool ValidateCarInsurance(PolicyDto value)
         {
-            return String.IsNullOrEmpty(value.Item.Plate) || String.IsNullOrEmpty(value.Item.Model) || String.IsNullOrEmpty(value.Item.Frame.ToString());
+            return String.IsNullOrEmpty(value.Item.Plate) || String.IsNullOrEmpty(value.Item.Model) || String.IsNullOrEmpty(value.Item.Frame.ToString()) || !(value.Item.Frame > 0);
         }
         private bool ValidateHomeInsurance(PolicyDto value)
         {
-            return AdressValidation(value.Item.Address) || TenantValidation(value.Item.Tenant) || RecipientValidation(value.Item.Recipient);
+            return AddressValidation(value.Item.Address) || TenantValidation(value.Item.Tenant) || RecipientValidation(value.Item.Recipient);
         }
 
-        private bool AdressValidation(Address? value)
+        private bool AddressValidation(Address? value)
         {
-            return (value == null) || String.IsNullOrEmpty(value.Number.ToString()) || String.IsNullOrEmpty(value.Street);
+            return (value == null) || String.IsNullOrEmpty(value.Number.ToString()) || String.IsNullOrEmpty(value.Street) || !(value.Number > 0);
         }
 
         private bool TenantValidation(PhysicalPerson? value)

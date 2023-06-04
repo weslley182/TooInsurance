@@ -1,14 +1,10 @@
-﻿using InsuranceAPI.Constants;
-using InsuranceAPI.Dto;
-using System.Net;
+﻿using System.Net;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Text.Json;
-using Microsoft.AspNetCore.Hosting;
 using InsuranceAPI.Services.Interface;
 using Moq;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Mvc.Testing;
 using InsuranceAPI.Tests.Builder;
 
 namespace InsuranceAPI.Tests.Controller;
@@ -17,23 +13,25 @@ public class InsuranceControllerTests
 {    
     private InsuranceApiApplication _application;
     private string _url = "v1/Insurance";
+    private HttpClient _httpClient;
 
     [SetUp]
     public void BaseSetUp()
     {
         var policyServiceMock = new Mock<IPolicyService>();
-        _application = new InsuranceApiApplication();        
+        _application = new InsuranceApiApplication();
+        _httpClient=  _application.CreateClient();
     }
 
     [Test]
-    public async Task POST_Must_Create_Message()
+    public async Task POST_Must_Create_Policy_Car_Message()
     {
         var carInsurance = new PolicyDtoBuilder()
             .WithCarFullFilled()
             .WithValuesFilled()
             .Build();
 
-        
+        await InsuranceMockData.CreateMessages(_application, false);
         var client = BuildApp(_url).Result;
 
         var json = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
@@ -41,7 +39,24 @@ public class InsuranceControllerTests
         var result = await client.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
 
         Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
-    }    
+    }
+
+    [Test]
+    public async Task POST_Must_Create_Policy_Home_Message()
+    {
+        var homeInsurance = new PolicyDtoBuilder()
+            .WithHomeFullFilled()
+            .WithValuesFilled()
+            .Build();
+
+        var client = BuildApp(_url).Result;
+
+        var json = JsonSerializer.Serialize(homeInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+
+        var result = await client.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
+
+        Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
+    }
 
     [Test]
     public async Task POST_No_Product_Must_return_bad_request()
@@ -78,6 +93,40 @@ public class InsuranceControllerTests
     }
 
     [Test]
+    public async Task POST_No_Model_Must_return_bad_request()
+    {
+        var carInsurance = new PolicyDtoBuilder()
+            .WithCarFullFilled()            
+            .WithValuesFilled()
+            .WithCarModel("")
+            .Build();
+
+        var client = BuildApp(_url).Result;
+
+        var json = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+        var result = await client.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
+
+        Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
+    }
+
+    [Test]
+    public async Task POST_No_Frame_Must_return_bad_request()
+    {
+        var carInsurance = new PolicyDtoBuilder()
+            .WithCarFullFilled()
+            .WithCarFrame(0)
+            .WithValuesFilled()
+            .Build();
+
+        var client = BuildApp(_url).Result;
+
+        var json = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+        var result = await client.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
+
+        Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
+    }
+
+    [Test]
     public async Task POST_No_Parcel_Must_return_bad_request()
     {
         var carInsurance = new PolicyDtoBuilder()
@@ -103,10 +152,10 @@ public class InsuranceControllerTests
             .WithValuesTotal(0)
             .Build();
 
-        var client = BuildApp(_url).Result;
+        //var client = BuildApp(_url).Result;
 
         var json = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
-        var result = await client.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
+        var result = await _httpClient.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
 
         Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
     }
@@ -118,32 +167,81 @@ public class InsuranceControllerTests
             .WithCarFullFilled()            
             .Build();
 
-        var client = BuildApp(_url).Result;
+        //var client = BuildApp(_url).Result;
 
         var json = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
-        var result = await client.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
+        var result = await _httpClient.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
+
+        Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
+    }
+
+    [Test]
+    public async Task POST_No_Adress_Must_return_bad_request()
+    {
+        var homeInsurance = new PolicyDtoBuilder()
+            .WithHomeFullFilled()            
+            .WithValuesFilled()
+            .WithHomeAdress(null)
+            .Build();
+
+        //var client = BuildApp(_url).Result;
+
+        var json = JsonSerializer.Serialize(homeInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+        var result = await _httpClient.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
+
+        Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
+    }
+
+    [Test]
+    public async Task POST_No_Street_Must_return_bad_request()
+    {
+        var homeInsurance = new PolicyDtoBuilder()
+            .WithHomeFullFilled()
+            .WithValuesFilled()
+            .WithHomeStreet("")
+            .Build();
+
+        //var client = BuildApp(_url).Result;
+
+        var json = JsonSerializer.Serialize(homeInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+        var result = await _httpClient.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
+
+        Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
+    }
+
+    [Test]
+    public async Task POST_No_StreetNumber_Must_return_bad_request()
+    {
+        var homeInsurance = new PolicyDtoBuilder()
+            .WithHomeFullFilled()
+            .WithValuesFilled()
+            .WithHomeStreetNumber(0)
+            .Build();
+
+        //var client = BuildApp(_url).Result;
+
+        var json = JsonSerializer.Serialize(homeInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+        var result = await _httpClient.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
 
         Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
     }
 
     private async Task<HttpClient>? BuildApp(string url, Mock mock = null)
     {
+        await InsuranceMockData.CreateMessages(_application, false);
         if(mock == null)
         {
             mock = new Mock<IPolicyService>();
+            return _application.WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureServices(services =>
+                {                
+                    services.AddScoped(serv => mock.Object);
+                });
+            }).CreateClient();
         }
 
-        var client = _application.WithWebHostBuilder(builder =>
-        {
-            builder.ConfigureServices(services =>
-            {                
-                services.AddScoped(serv => mock.Object);
-            });
-        })
-        .CreateClient();
-
-        await InsuranceMockData.CreateMessages(_application, false);
-        return client;//_application.CreateClient();
+        return _application.CreateClient();
     }
 
 

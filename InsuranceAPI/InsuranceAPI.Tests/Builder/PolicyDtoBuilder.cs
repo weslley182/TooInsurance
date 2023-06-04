@@ -2,16 +2,17 @@
 using Bogus.Extensions.Brazil;
 using InsuranceAPI.Constants;
 using InsuranceAPI.Dto;
-
+using System.Security.Cryptography.Pkcs;
+using System.Text.RegularExpressions;
 
 namespace InsuranceAPI.Tests.Builder;
 
 public class PolicyDtoBuilder
 {
+    private Faker _faker = new();
     private PolicyDto _policyDto = new();
     private AmountDto _amountDto = new();
     private GeneralDto _generalDto = new();
-    private Faker _faker = new();
     
     public PolicyDtoBuilder WithProduct(int cod)
     {
@@ -67,6 +68,8 @@ public class PolicyDtoBuilder
 
     public PolicyDtoBuilder WithHomeFullFilled()
     {
+        var onlyNumbers = new Regex(@"[^\d]");
+        
         _policyDto.Product = RabbitConstants.HomeInsuranceCod;
         var address = new Address();
         var tenant = new PhysicalPerson();
@@ -76,16 +79,55 @@ public class PolicyDtoBuilder
         address.Number = _faker.Address.Random.Int(50, 9999);
 
         tenant.Name = _faker.Person.FullName;
-        tenant.TaxIdNumber = int.Parse(_faker.Person.Cpf());
+        var cpf = _faker.Person.Cpf();
+        tenant.TaxIdNumber = Double.Parse(onlyNumbers.Replace(cpf, ""));
 
         recipient.Name = _faker.Company.CompanyName();
-        recipient.FedTaxIdNumber = int.Parse(_faker.Company.Cnpj());
+        var cnpj = _faker.Company.Cnpj();
+        recipient.FedTaxIdNumber = Double.Parse(onlyNumbers.Replace(cnpj, ""));
         
         _generalDto.Address = address;
         _generalDto.Tenant = tenant;
         _generalDto.Recipient = recipient;
         return this;
     }
+
+    public PolicyDtoBuilder WithHomeAdress(Address? address)
+    {
+        _generalDto.Address = address;
+        return this;
+    }
+
+    public PolicyDtoBuilder WithHomeStreet(string street)
+    {
+        _generalDto.Address.Street = street;
+        return this;
+    }
+
+    public PolicyDtoBuilder WithHomeStreetNumber(int number)
+    {
+        _generalDto.Address.Number = number;
+        return this;
+    }
+
+    public PolicyDtoBuilder WithHomeRecipient(LegalPerson? recipient)
+    {
+        _generalDto.Recipient = recipient;
+        return this;
+    }
+
+    public PolicyDtoBuilder WithHomeRecName(string name)
+    {
+        _generalDto.Recipient.Name = name;
+        return this;
+    }
+
+    public PolicyDtoBuilder WithHomeRecId(double number)
+    {
+        _generalDto.Recipient.FedTaxIdNumber= number;
+        return this;
+    }
+
 
     public PolicyDto Build()
     {

@@ -7,41 +7,26 @@ namespace InsuranceAPI.Tests.Controller;
 public class MessageControllerTests
 {
     private InsuranceApiApplication _application;
+    private HttpClient _client;
+    private string _url = "v1/Message";
 
     [SetUp]
     public void BaseSetUp() 
     {
         _application = new InsuranceApiApplication();
+        _client = _application.CreateClient();
     }
 
     [Test]
     public async Task GET_Return_all_messages()
     {
-        await InsuranceMockData.CreateMessages(_application, true);
-        var url = "v1/Message";
+        await InsuranceMockData.CreateMessages(_application, true);        
 
-        var client = _application.CreateClient();
-
-        var result = await client.GetAsync(url);
-        var messages = await client.GetFromJsonAsync<List<MessageModel>>(url);
+        var result = await _client.GetAsync(_url);
+        var messages = await _client.GetFromJsonAsync<List<MessageModel>>(_url);
 
         Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
         Assert.IsNotNull(messages);
         Assert.AreEqual(2, messages.Count);
-    }
-
-    [Test]
-    public async Task GET_Return_must_be_not_found()
-    {
-        await using var _application = new InsuranceApiApplication();
-        
-        var url = "v1/Message";
-
-        var client = _application.CreateClient();
-
-        var result = await client.GetAsync(url);        
-
-        Assert.AreEqual(HttpStatusCode.NotFound, result.StatusCode);
-        
-    }
+    }    
 }

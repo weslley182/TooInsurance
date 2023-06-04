@@ -1,7 +1,7 @@
 
 # TooInsurance
 ## Diagram
-![solution](../../..diagrama_teste.png)
+![solution](../../diagrama_teste.png)
 ## Rabbit info
  - User: guest
  - Password: guest

@@ -1,6 +1,6 @@
 
 # TooInsurance
-## Diagram
+## Diagram:
 ![solution](./avalicao-tecnica-dados/doc/diagrama_teste.png)
 ## Rabbit info
  - User: guest

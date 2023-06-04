@@ -20,7 +20,7 @@ public class MessageControllerTests
     [Test]
     public async Task GET_Return_all_messages()
     {
-        await InsuranceMockData.CreateMessages(_application, true);        
+        await InsuranceMockData.CreateMessages(_application, true);         
 
         var result = await _client.GetAsync(_url);
         var messages = await _client.GetFromJsonAsync<List<MessageModel>>(_url);

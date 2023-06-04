@@ -18,9 +18,14 @@
  - Entity Framework
 
 ## On Library DadaBaseModel Run these commands 
+ - dotnet clean
+ - dotnet build
  - dotnet ef database update
 
-## Run commands:
+## Run commands on:
+InsuranceAPI
+CarWorker
+HomeWorker
 
   ```bash
   
@@ -30,8 +35,8 @@
  
  ```
  ## Running the app:
- - https://localhost:7250/swagger/index.html
- - http://localhost:5207/swagger/index.html
+ - https://localhost:7184/swagger/index.html
+ 
  
 ## Test, on InsuranceAPI.Tests
 
@@ -41,3 +46,5 @@
  or Test/Run All Tests on Visual Studio
 
  ``` 
+  # Directories like that
+  ![prompt](./images/diagrama_teste.png)

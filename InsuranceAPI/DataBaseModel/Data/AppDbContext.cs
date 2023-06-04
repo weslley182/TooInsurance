@@ -1,5 +1,6 @@
 ﻿using DataBaseModel.Model;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
 
@@ -14,6 +15,7 @@ public class AppDbContext: DbContext
     }
     
     public DbSet<MessageModel> Messages { get; set; }
+    public DbSet<CarParcelModel> CarParcels { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

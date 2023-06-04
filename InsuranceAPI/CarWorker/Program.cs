@@ -1,7 +1,7 @@
 using CarWorker;
 using DataBaseModel.Data;
+using DataBaseModel.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Reflection;
 
 var libraryConfig = new ConfigurationBuilder()
@@ -17,6 +17,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         {            
             options.UseSqlite(libraryConfig.GetConnectionString("InsuranceAPIConnectionRelativePath"));
         });
+        services.AddScoped<ICarInsuranceRepository, ICarInsuranceRepository>();
     })
     .Build();
 

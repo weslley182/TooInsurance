@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InsuranceAPI.Controllers;
 
+/// <summary>
+/// Controller responsable for first messages of API
+/// </summary>
 [ApiController]
 [Route(template: "v1/HomeParcels")]
 public class HomeParcelsController : ControllerBase
@@ -13,13 +16,22 @@ public class HomeParcelsController : ControllerBase
         _repo = repo;
     }
 
+    /// <summary>
+    /// Get all home parcels
+    /// </summary>
+    /// <returns>list of home parcels</returns>
     [HttpGet]
     public async Task<ActionResult> GetAll()
     {
         var parcels = await _repo.GetAllAsync();
         return !parcels.Any() ? NotFound() : Ok(parcels);
     }
-
+    
+    /// <summary>
+    /// Get home parcels
+    /// </summary>
+    /// <param name="id">id from messageId</param>
+    /// <returns>List of home parcels from message</returns>
     [HttpGet]
     [Route("GetByMessageId/{id}")]
     public async Task<ActionResult> GetByMessageId([FromRoute] int id)

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 namespace InsuranceAPI.Controllers;
+
 /// <summary>
 /// Controller responsable for first messages of API
 /// </summary>

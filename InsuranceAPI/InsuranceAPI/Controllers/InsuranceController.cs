@@ -8,6 +8,9 @@ using System.Text.Json.Serialization;
 
 namespace InsuranceAPI.Controllers;
 
+/// <summary>
+/// Controller responsable for sent messages for exchange and data
+/// </summary>
 [ApiController]
 [Route(template: "v1/Insurance")]
 public class InsuranceController : ControllerBase
@@ -20,6 +23,11 @@ public class InsuranceController : ControllerBase
         _repo = repo;
     }
 
+    /// <summary>
+    /// Post Policy on exchange
+    /// </summary>
+    /// <param name="policy">policy data with product 222 or 111</param>
+    /// <returns>action result</returns>
     [HttpPost]
     public async Task<ActionResult> SendInsuranceAsync([FromBody] PolicyDto policy)
     {

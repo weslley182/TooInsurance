@@ -18,12 +18,12 @@ public class ConsumerService: IConsumerService
     private readonly IModel _channel;
     private const string QueueName = "car-insurance-queue";
     private IConfiguration _configuration;    
+    private readonly AppDbContext _ctx;
     
 
-    public ConsumerService(ICarInsuranceRepository repo)    
+    public ConsumerService(AppDbContext ctx)
     {
-
-        _repo = repo;
+        _ctx = ctx;
         _configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", false, false)
@@ -68,6 +68,7 @@ public class ConsumerService: IConsumerService
     {
         var parcels = model.Values.Parcel;
         var amount = model.Values.Total / parcels;
+        amount = Math.Round(amount, 2);
         var remnant = model.Values.Total - (amount * parcels);
         try
         {
@@ -81,19 +82,13 @@ public class ConsumerService: IConsumerService
                     Amount = amount + remnant,
                     MessageId = model.MessageId
                 };
-
-                var save = count == parcels;
-                _repo.Add(car, save);
+                _ctx.CarParcels.Add(car);                
             }
+            _ctx.SaveChanges();
         }
         catch (Exception ex)
         {
-            throw new Exception("error to save parcels" + ex.Message);
+            throw new Exception("Error to save parcels" + ex.Message);
         }
-    }
-
-    //public Task Consume(ConsumeContext<CarPolicyDto> context)
-    //{
-    //    return SaveToDatabase(context.Message);
-    //}
+    }    
 }

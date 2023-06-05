@@ -8,25 +8,21 @@ namespace CarWorker
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
-        private readonly ConsumerService _consumerService;
-        private readonly ICarInsuranceRepository _repo;
-        private readonly AppDbContext _dbContext;
-
-        //public Worker(ILogger<Worker> logger, AppDbContext dbContext)
-        public Worker(ILogger<Worker> logger, ICarInsuranceRepository repo)
+        private readonly IServiceProvider _serviceProvider;
+        public Worker(ILogger<Worker> logger, IServiceProvider serviceProvider)
         {
-            //_dbContext = dbContext;
             _logger = logger;
-            _repo = repo;
-            //_consumerService = rabbitMQConsumer;
+            _serviceProvider = serviceProvider;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("Start Service.");
+            var scope = _serviceProvider.CreateScope();            
+            var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            var consumer = new ConsumerService(_repo);
-            consumer.StartConsuming(stoppingToken);
+            var consumer = new ConsumerService(dbContext);
+            await consumer.StartConsuming(stoppingToken);
 
             while (!stoppingToken.IsCancellationRequested)
             {

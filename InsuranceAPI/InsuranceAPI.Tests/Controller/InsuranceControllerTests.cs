@@ -14,13 +14,20 @@ public class InsuranceControllerTests
     private InsuranceApiApplication _application;
     private string _url = "v1/Insurance";
     private HttpClient _httpClient;
+    private Mock<IPolicyService> _policyServiceMock;
 
     [SetUp]
     public void BaseSetUp()
     {
-        var policyServiceMock = new Mock<IPolicyService>();
+        _policyServiceMock = new Mock<IPolicyService>();
         _application = new InsuranceApiApplication();
-        _httpClient = _application.CreateClient();
+        _httpClient = BuildApp(_policyServiceMock);
+    }
+
+    [TearDown]
+    public void BaseTearDown()
+    {
+
     }
 
     [Test]
@@ -32,11 +39,10 @@ public class InsuranceControllerTests
             .Build();
 
         await InsuranceMockData.CreateMessages(_application, false);
-        var client = BuildApp(_url).Result;
 
         var json = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
 
-        var result = await client.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
+        var result = await _httpClient.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
 
         Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
     }
@@ -49,11 +55,9 @@ public class InsuranceControllerTests
             .WithValuesFilled()
             .Build();
 
-        var client = BuildApp(_url).Result;
-
         var json = JsonSerializer.Serialize(homeInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
 
-        var result = await client.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
+        var result = await _httpClient.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
 
         Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
     }
@@ -67,10 +71,8 @@ public class InsuranceControllerTests
             .WithValuesFilled()
             .Build();
 
-        var client = BuildApp(_url).Result;
-
         var json = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
-        var result = await client.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
+        var result = await _httpClient.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
 
         Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
     }
@@ -84,10 +86,8 @@ public class InsuranceControllerTests
             .WithValuesFilled()
             .Build();
 
-        var client = BuildApp(_url).Result;
-
         var json = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
-        var result = await client.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
+        var result = await _httpClient.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
 
         Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
     }
@@ -101,10 +101,8 @@ public class InsuranceControllerTests
             .WithCarModel(null)
             .Build();
 
-        var client = BuildApp(_url).Result;
-
         var json = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
-        var result = await client.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
+        var result = await _httpClient.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
 
         Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
     }
@@ -118,10 +116,8 @@ public class InsuranceControllerTests
             .WithValuesFilled()
             .Build();
 
-        var client = BuildApp(_url).Result;
-
         var json = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
-        var result = await client.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
+        var result = await _httpClient.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
 
         Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
     }
@@ -135,10 +131,8 @@ public class InsuranceControllerTests
             .WithValuesParcel(0)
             .Build();
 
-        var client = BuildApp(_url).Result;
-
         var json = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
-        var result = await client.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
+        var result = await _httpClient.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
 
         Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
     }
@@ -152,8 +146,6 @@ public class InsuranceControllerTests
             .WithValuesTotal(0)
             .Build();
 
-        //var client = BuildApp(_url).Result;
-
         var json = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
         var result = await _httpClient.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
 
@@ -166,8 +158,6 @@ public class InsuranceControllerTests
         var carInsurance = new PolicyDtoBuilder()
             .WithCarFullFilled()
             .Build();
-
-        //var client = BuildApp(_url).Result;
 
         var json = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
         var result = await _httpClient.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
@@ -184,8 +174,6 @@ public class InsuranceControllerTests
             .WithHomeAdress(null)
             .Build();
 
-        //var client = BuildApp(_url).Result;
-
         var json = JsonSerializer.Serialize(homeInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
         var result = await _httpClient.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
 
@@ -200,8 +188,6 @@ public class InsuranceControllerTests
             .WithValuesFilled()
             .WithHomeStreet(null)
             .Build();
-
-        //var client = BuildApp(_url).Result;
 
         var json = JsonSerializer.Serialize(homeInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
         var result = await _httpClient.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
@@ -218,8 +204,6 @@ public class InsuranceControllerTests
             .WithHomeStreetNumber(0)
             .Build();
 
-        //var client = BuildApp(_url).Result;
-
         var json = JsonSerializer.Serialize(homeInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
         var result = await _httpClient.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
 
@@ -234,8 +218,6 @@ public class InsuranceControllerTests
             .WithValuesFilled()
             .WithHomeStreetNumber(0)
             .Build();
-
-        //var client = BuildApp(_url).Result;
 
         var json = JsonSerializer.Serialize(homeInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
         var result = await _httpClient.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
@@ -252,32 +234,20 @@ public class InsuranceControllerTests
             .WithHomeStreetNumber(0)
             .Build();
 
-        //var client = BuildApp(_url).Result;
-
         var json = JsonSerializer.Serialize(homeInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
         var result = await _httpClient.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
 
         Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
     }
 
-    private async Task<HttpClient>? BuildApp(string url, Mock mock = null)
+    private HttpClient BuildApp(Mock<IPolicyService> mock)
     {
-        await InsuranceMockData.CreateMessages(_application, false);
-        if (mock == null)
+        return _application.WithWebHostBuilder(builder =>
         {
-            mock = new Mock<IPolicyService>();
-            return _application.WithWebHostBuilder(builder =>
+            builder.ConfigureServices(services =>
             {
-                builder.ConfigureServices(services =>
-                {
-                    //services.Remove<IPolicyService>();
-                    services.AddScoped(serv => mock.Object);
-                });
-            }).CreateClient();
-        }
-
-        return _application.CreateClient();
+                services.AddScoped(serv => mock.Object);
+            });
+        }).CreateClient();
     }
-
-
 }

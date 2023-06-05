@@ -47,7 +47,7 @@ Payload_2
     "produto": 222,
     "item":{
         "placa": "ABC1234",
-        "chassis": 123213,
+        "chassis": "123213",
         "modelo": "PORCHE"
     },
     "valores":{

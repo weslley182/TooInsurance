@@ -1,4 +1,4 @@
-﻿using InsuranceAPI.Dto;
+﻿using ModelLib.Dtos;
 
 namespace InsuranceAPI.Services.Interface
 {

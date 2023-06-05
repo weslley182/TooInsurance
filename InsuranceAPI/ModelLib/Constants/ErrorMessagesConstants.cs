@@ -1,4 +1,4 @@
-﻿namespace InsuranceAPI.Constants
+﻿namespace ModelLib.Constants
 {
     public static class ErrorMessagesConstants
     {

@@ -7,7 +7,7 @@ using ModelLib.Dtos;
 using DataBaseModel.Model;
 using CarWorker.Services.Interface;
 using DataBaseModel.Data;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+
 
 namespace CarWorker.Services;
 
@@ -47,12 +47,9 @@ public class ConsumerService: IConsumerService
         consumer.Received += async (sender, eventArgs) =>
         {
             var body = eventArgs.Body.ToArray();
-            var message = Encoding.UTF8.GetString(body);
-
-            // Deserialize the message to your desired model
+            var message = Encoding.UTF8.GetString(body);            
             var model = JsonSerializer.Deserialize<CarPolicyDto>(message);
 
-            // Save the model to the database
             await SaveToDatabase(model);
 
             _channel.BasicAck(eventArgs.DeliveryTag, multiple: false);

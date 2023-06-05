@@ -1,15 +1,18 @@
 ﻿using Bogus;
 using Bogus.Extensions.Brazil;
-using InsuranceAPI.Constants;
-using InsuranceAPI.Dto;
-using System.Security.Cryptography.Pkcs;
+using ModelLib.Constants;
+using ModelLib.Dtos;
 using System.Text.RegularExpressions;
+using ModelLib.Dtos;
+using Bogus.DataSets;
+using Faker;
 
 namespace InsuranceAPI.Tests.Builder;
 
 public class PolicyDtoBuilder
 {
-    private Faker _faker = new();
+    private Bogus.Faker _faker = new();
+    //private Faker _fakerS = new();
     private PolicyDto _policyDto = new();
     private AmountDto _amountDto = new();
     private GeneralDto _generalDto = new();
@@ -42,25 +45,25 @@ public class PolicyDtoBuilder
     public PolicyDtoBuilder WithCarFullFilled()
     {
         _policyDto.Product = RabbitConstants.CarInsuranceCod;
-        _generalDto.Plate = _faker.Random.Word();
-        _generalDto.Model = _faker.Random.Word();
-        _generalDto.Frame = _faker.Random.Number(10);
+        //_generalDto.Plate = _fakerS.Vehicle.LicensePlate();
+        _generalDto.Model = _faker.Vehicle.Model();
+        _generalDto.Frame = _faker.Random.AlphaNumeric(17);
         return this;
     }
 
-    public PolicyDtoBuilder WithCarPlate(string plate)
+    public PolicyDtoBuilder WithCarPlate(string? plate)
     {
         _generalDto.Plate = plate;
         return this;
     }
 
-    public PolicyDtoBuilder WithCarModel(string model)
+    public PolicyDtoBuilder WithCarModel(string? model)
     {
         _generalDto.Model = model;
         return this;
     }
 
-    public PolicyDtoBuilder WithCarFrame(int frame)
+    public PolicyDtoBuilder WithCarFrame(string? frame)
     {        
         _generalDto.Frame = frame;
         return this;
@@ -71,7 +74,7 @@ public class PolicyDtoBuilder
         var onlyNumbers = new Regex(@"[^\d]");
         
         _policyDto.Product = RabbitConstants.HomeInsuranceCod;
-        var address = new Address();
+        var address = new ModelLib.Dtos.Address();
         var tenant = new PhysicalPerson();
         var recipient = new LegalPerson();
 
@@ -92,7 +95,7 @@ public class PolicyDtoBuilder
         return this;
     }
 
-    public PolicyDtoBuilder WithHomeAdress(Address? address)
+    public PolicyDtoBuilder WithHomeAdress(ModelLib.Dtos.Address? address)
     {
         _generalDto.Address = address;
         return this;

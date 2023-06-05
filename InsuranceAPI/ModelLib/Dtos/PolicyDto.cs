@@ -1,9 +1,11 @@
-﻿using InsuranceAPI.Constants;
+﻿using ModelLib.Constants;
 using LinkDotNet.ValidationExtensions;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using ModelLib.Dtos;
+using ModelLib.Validation;
 
-namespace InsuranceAPI.Dto
+namespace ModelLib.Dtos
 {
     public class PolicyDto
     {

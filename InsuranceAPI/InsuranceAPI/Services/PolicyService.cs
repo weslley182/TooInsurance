@@ -1,5 +1,5 @@
-﻿using InsuranceAPI.Constants;
-using InsuranceAPI.Dto;
+﻿using ModelLib.Constants;
+using ModelLib.Dtos;
 using InsuranceAPI.Services.Interface;
 using RabbitMQ.Client;
 using System.Text;
@@ -39,8 +39,8 @@ namespace InsuranceAPI.Services
             var jsonString = JsonSerializer.Serialize(policy,
                 new JsonSerializerOptions
                 {
-                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-                    //,WriteIndented = true
+                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                    WriteIndented = true
                 });
 
             var body = Encoding.UTF8.GetBytes(jsonString);

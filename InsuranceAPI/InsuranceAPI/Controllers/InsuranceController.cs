@@ -1,5 +1,5 @@
 ﻿using DataBaseModel.Repository.Interface;
-using InsuranceAPI.Dto;
+using ModelLib.Dtos;
 using InsuranceAPI.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;

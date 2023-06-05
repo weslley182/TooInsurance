@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataBaseModel\DataBaseModel.csproj" />
+    <ProjectReference Include="..\ModelLib\ModelLib.csproj" />
   </ItemGroup>
   <ItemGroup>
     <InternalVisibleTo Include="InsuranceAPI.Tests" />

@@ -6,6 +6,7 @@ using InsuranceAPI.Services.Interface;
 using Moq;
 using Microsoft.Extensions.DependencyInjection;
 using InsuranceAPI.Tests.Builder;
+using InsuranceAPI.Services;
 
 namespace InsuranceAPI.Tests.Controller;
 
@@ -78,9 +79,9 @@ public class InsuranceControllerTests
     [Test]
     public async Task POST_No_Plate_Must_return_bad_request()
     {
-        var carInsurance = new PolicyDtoBuilder()            
+        var carInsurance = new PolicyDtoBuilder()
             .WithCarFullFilled()
-            .WithCarPlate("")
+            .WithCarPlate(null)
             .WithValuesFilled()
             .Build();
         
@@ -98,7 +99,7 @@ public class InsuranceControllerTests
         var carInsurance = new PolicyDtoBuilder()
             .WithCarFullFilled()            
             .WithValuesFilled()
-            .WithCarModel("")
+            .WithCarModel(null)
             .Build();
 
         var client = BuildApp(_url).Result;
@@ -114,7 +115,7 @@ public class InsuranceControllerTests
     {
         var carInsurance = new PolicyDtoBuilder()
             .WithCarFullFilled()
-            .WithCarFrame(0)
+            .WithCarFrame(null)
             .WithValuesFilled()
             .Build();
 
@@ -198,7 +199,7 @@ public class InsuranceControllerTests
         var homeInsurance = new PolicyDtoBuilder()
             .WithHomeFullFilled()
             .WithValuesFilled()
-            .WithHomeStreet("")
+            .WithHomeStreet(null)
             .Build();
 
         //var client = BuildApp(_url).Result;
@@ -233,9 +234,10 @@ public class InsuranceControllerTests
         {
             mock = new Mock<IPolicyService>();
             return _application.WithWebHostBuilder(builder =>
-            {
+            {                
                 builder.ConfigureServices(services =>
-                {                
+                {
+                    //services.Remove<IPolicyService>();
                     services.AddScoped(serv => mock.Object);
                 });
             }).CreateClient();

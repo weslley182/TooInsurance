@@ -17,7 +17,7 @@ namespace ModelLib.Dtos
         public string? Plate { get; set; }
 
         [JsonPropertyName("Chassis")]        
-        public int? Frame { get; set; }
+        public string? Frame { get; set; }
 
         [JsonPropertyName("Modelo")]        
         public string? Model { get; set; }

@@ -1,7 +1,7 @@
 ﻿using DataBaseModel.Data;
 using DataBaseModel.Model;
-using InsuranceAPI.Constants;
-using InsuranceAPI.Dto;
+using ModelLib.Constants;
+using ModelLib.Dtos;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -24,7 +24,7 @@ public class InsuranceMockData
                 var homeParcel = new AmountDto() { Total = 100, Parcel = 3 };
                 var homeInsurance = new PolicyDto() { Product = RabbitConstants.HomeInsuranceCod, Item = homeItem, Values = homeParcel };
 
-                var carItem = new GeneralDto() { Model = "Fusca", Frame = 13253578, Plate = "CQB15153" };
+                var carItem = new GeneralDto() { Model = "Fusca", Frame = "3Bha5N6hxtt593639", Plate = "CQB15153" };
                 var carParcel = new AmountDto() { Total = 5000, Parcel = 3 };
                 var carInsurance = new PolicyDto() { Product = RabbitConstants.CarInsuranceCod, Item = carItem, Values = carParcel };
 

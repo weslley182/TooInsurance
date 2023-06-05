@@ -8,7 +8,7 @@
  - User: guest
  - Password: guest
 
-## On Windows, after install Docker Desktop, run line below
+## On Windows, after install Docker Desktop, run line below:
  - docker run -d --hostname rmq --name rabbit-server -p 8080:15672 -p 5672:5672 rabbitmq:3-management
 
 ## On Windows:
@@ -17,12 +17,12 @@
  - SDK .Net 6
  - Entity Framework
 
-## On Library DadaBaseModel Run these commands 
+## On Library DadaBaseModel Run these commands:
  - dotnet clean
  - dotnet build
  - dotnet ef database update
 
-## Open 3 Consoles and run each of then, Run commands on:
+## Open 3 Consoles and run each of then, run commands on:
  - InsuranceAPI
  - CarWorker
  - HomeWorker
@@ -47,7 +47,7 @@
 
  ``` 
  ![prompt](./images/TestesDemo.PNG)
- 
+
 ## Directories like that:
  ![prompt](./images/directory.PNG)
  

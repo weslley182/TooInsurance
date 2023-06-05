@@ -1,18 +1,15 @@
 ﻿using Bogus;
+using Bogus.DataSets;
 using Bogus.Extensions.Brazil;
 using ModelLib.Constants;
 using ModelLib.Dtos;
 using System.Text.RegularExpressions;
-using ModelLib.Dtos;
-using Bogus.DataSets;
-using Faker;
 
 namespace InsuranceAPI.Tests.Builder;
 
 public class PolicyDtoBuilder
 {
-    private Bogus.Faker _faker = new();
-    //private Faker _fakerS = new();
+    private Faker _faker = new();    
     private PolicyDto _policyDto = new();
     private AmountDto _amountDto = new();
     private GeneralDto _generalDto = new();
@@ -45,7 +42,8 @@ public class PolicyDtoBuilder
     public PolicyDtoBuilder WithCarFullFilled()
     {
         _policyDto.Product = RabbitConstants.CarInsuranceCod;
-        //_generalDto.Plate = _fakerS.Vehicle.LicensePlate();
+        string carPlate = _faker.Random.String2(3, "ABCDEFGHIJKLMNOPQRSTUVWXYZ") + "-" + _faker.Random.Number(1000, 9999);
+        _generalDto.Plate = carPlate;
         _generalDto.Model = _faker.Vehicle.Model();
         _generalDto.Frame = _faker.Random.AlphaNumeric(17);
         return this;

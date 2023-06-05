@@ -20,7 +20,7 @@ public class PolicyValidation
 
     private bool ValidateCarInsurance(PolicyDto value)
     {
-        return String.IsNullOrEmpty(value.Item.Plate) || String.IsNullOrEmpty(value.Item.Model) || String.IsNullOrEmpty(value.Item.Frame.ToString());
+        return String.IsNullOrEmpty(value.Item.Plate) || String.IsNullOrEmpty(value.Item.Model) || String.IsNullOrEmpty(value.Item.Frame);
     }
     private bool ValidateHomeInsurance(PolicyDto value)
     {

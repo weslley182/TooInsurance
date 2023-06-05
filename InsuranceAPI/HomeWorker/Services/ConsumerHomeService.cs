@@ -19,13 +19,10 @@ public class ConsumerHomeService : IConsumerHomeService
     private readonly AppDbContext _ctx;
 
 
-    public ConsumerHomeService(AppDbContext ctx)
+    public ConsumerHomeService(AppDbContext ctx, IConfiguration config)
     {
         _ctx = ctx;
-        _configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", false, false)
-            .Build();
+        _configuration = config;
 
         var factory = new ConnectionFactory
         {
@@ -46,7 +43,7 @@ public class ConsumerHomeService : IConsumerHomeService
         {
             var body = eventArgs.Body.ToArray();
             var message = Encoding.UTF8.GetString(body);
-            var model = JsonSerializer.Deserialize<CarPolicyDto>(message);
+            var model = JsonSerializer.Deserialize<HomePolicyDto>(message);
 
             await SaveToDatabase(model);
 
@@ -59,7 +56,7 @@ public class ConsumerHomeService : IConsumerHomeService
     }
 
 
-    private async Task SaveToDatabase(CarPolicyDto model)
+    private async Task SaveToDatabase(HomePolicyDto model)
     {
         var parcels = model.Values.Parcel;
         var amount = model.Values.Total / parcels;
@@ -70,20 +67,20 @@ public class ConsumerHomeService : IConsumerHomeService
             for (int count = 1; count <= parcels; count++)
             {
                 remnant = count == 1 ? remnant : 0;
-                var car = new CarParcelModel()
+                var home = new HomeParcelModel()
                 {
 
                     Parcel = count,
                     Amount = amount + remnant,
                     MessageId = model.MessageId
                 };
-                _ctx.CarParcels.Add(car);
+                _ctx.HomeParcels.Add(home);
             }
             _ctx.SaveChanges();
         }
         catch (Exception ex)
         {
-            throw new Exception("Error to save parcels" + ex.Message);
+            throw new Exception("Error to save home parcels" + ex.Message);
         }
     }
 }

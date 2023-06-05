@@ -15,6 +15,7 @@ public class AppDbContext : DbContext
 
     public DbSet<MessageModel> Messages { get; set; }
     public DbSet<CarParcelModel> CarParcels { get; set; }
+    public DbSet<HomeParcelModel> HomeParcels { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -26,8 +27,7 @@ public class AppDbContext : DbContext
                 .Build();
             var connectionString = configuration.GetConnectionString("InsuranceAPIConnection");
             optionsBuilder.UseSqlite(connectionString);
-        }
-        //optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.ManyServiceProvidersCreatedWarning));
+        }        
 
         optionsBuilder.LogTo(Console.WriteLine);
     }

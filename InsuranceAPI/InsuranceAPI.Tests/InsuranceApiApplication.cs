@@ -12,7 +12,6 @@ public class InsuranceApiApplication : WebApplicationFactory<Program>
 {
     protected override IHost CreateHost(IHostBuilder builder)
     {
-
         var root = new InMemoryDatabaseRoot();
 
         builder.ConfigureServices(services =>

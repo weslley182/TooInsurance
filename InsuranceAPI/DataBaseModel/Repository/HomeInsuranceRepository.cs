@@ -5,30 +5,30 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataBaseModel.Repository;
 
-public class CarInsuranceRepository : ICarInsuranceRepository
+public class HomeInsuranceRepository : IHomeInsuranceRepository
 {
     private readonly AppDbContext _context;
-    public CarInsuranceRepository(AppDbContext context)
+    public HomeInsuranceRepository(AppDbContext context)
     {
         _context = context;
     }
-    public async Task Add(CarParcelModel car)
+    public async Task Add(HomeParcelModel home)
     {
         try
         {
-            var returnModel = await _context.CarParcels.AddAsync(car);            
+            var returnModel = await _context.HomeParcels.AddAsync(home);
             await _context.SaveChangesAsync();
-            
+
         }
         catch (Exception e)
         {
-            throw new Exception("Error on create car policy: " + e.Message);
+            throw new Exception("Error on create home policy: " + e.Message);
         }
     }
 
-    public async Task<List<CarParcelModel>> GetAllAsync()
+    public async Task<List<HomeParcelModel>> GetAllAsync()
     {
-        return await _context.CarParcels
+        return await _context.HomeParcels
             .AsNoTracking()
             .ToListAsync();
     }

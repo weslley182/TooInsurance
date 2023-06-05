@@ -5,5 +5,5 @@ namespace DataBaseModel.Repository.Interface;
 public interface ICarInsuranceRepository
 {
     Task<List<CarParcelModel>> GetAllAsync();
-    Task Add(CarParcelModel car, bool save);
+    Task Add(CarParcelModel car);
 }

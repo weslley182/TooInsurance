@@ -7,10 +7,12 @@ namespace CarWorker
     {
         private readonly ILogger<Worker> _logger;
         private readonly IServiceProvider _serviceProvider;
-        public Worker(ILogger<Worker> logger, IServiceProvider serviceProvider)
+        private readonly IConfiguration _config;
+        public Worker(ILogger<Worker> logger, IServiceProvider serviceProvider, IConfiguration cofig)
         {
             _logger = logger;
             _serviceProvider = serviceProvider;
+            _config = cofig;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -19,7 +21,7 @@ namespace CarWorker
             var scope = _serviceProvider.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            var consumer = new ConsumerCarService(dbContext);
+            var consumer = new ConsumerCarService(dbContext, _config);
             await consumer.StartConsuming(stoppingToken);
 
             while (!stoppingToken.IsCancellationRequested)

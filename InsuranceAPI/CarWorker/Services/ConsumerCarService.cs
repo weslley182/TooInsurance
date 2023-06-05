@@ -17,15 +17,10 @@ public class ConsumerCarService : IConsumerCarService
     private const string QueueName = RabbitConstants.CarInsuranceQueue;
     private IConfiguration _configuration;
     private readonly AppDbContext _ctx;
-
-
-    public ConsumerCarService(AppDbContext ctx)
+    public ConsumerCarService(AppDbContext ctx, IConfiguration config)
     {
         _ctx = ctx;
-        _configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", false, false)
-            .Build();
+        _configuration = config;
 
         var factory = new ConnectionFactory
         {
@@ -83,7 +78,7 @@ public class ConsumerCarService : IConsumerCarService
         }
         catch (Exception ex)
         {
-            throw new Exception("Error to save parcels" + ex.Message);
+            throw new Exception("Error to save car parcels" + ex.Message);
         }
     }
 }

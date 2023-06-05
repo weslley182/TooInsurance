@@ -246,6 +246,9 @@ public class InsuranceControllerTests
         {
             builder.ConfigureServices(services =>
             {
+                var policyServ = services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IPolicyService));
+                services.Remove(policyServ);
+                
                 services.AddScoped(serv => mock.Object);
             });
         }).CreateClient();

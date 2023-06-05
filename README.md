@@ -22,7 +22,7 @@
  - dotnet build
  - dotnet ef database update
 
-## Run commands on:
+## Open 3 Consoles and run each of then, Run commands on:
  - InsuranceAPI
  - CarWorker
  - HomeWorker
@@ -46,6 +46,8 @@
  or Test/Run All Tests on Visual Studio
 
  ``` 
+ ![prompt](./images/TestesDemo.PNG)
+ 
 ## Directories like that:
  ![prompt](./images/directory.PNG)
  

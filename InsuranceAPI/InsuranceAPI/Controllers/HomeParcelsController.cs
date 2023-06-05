@@ -26,7 +26,7 @@ public class HomeParcelsController : ControllerBase
         var parcels = await _repo.GetAllAsync();
         return !parcels.Any() ? NotFound() : Ok(parcels);
     }
-    
+
     /// <summary>
     /// Get home parcels
     /// </summary>

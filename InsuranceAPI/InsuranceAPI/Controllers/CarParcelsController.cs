@@ -26,7 +26,7 @@ public class CarParcelsController : ControllerBase
         var parcels = await _repo.GetAllAsync();
         return !parcels.Any() ? NotFound() : Ok(parcels);
     }
-    
+
     /// <summary>
     /// Get car parcels
     /// </summary>

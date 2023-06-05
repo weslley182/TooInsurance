@@ -19,7 +19,7 @@ namespace InsuranceAPI.Dto
 
         private bool ValidateCarInsurance(PolicyDto value)
         {
-            return String.IsNullOrEmpty(value.Item.Plate) || String.IsNullOrEmpty(value.Item.Model) || String.IsNullOrEmpty(value.Item.Frame.ToString()) || !(value.Item.Frame > 0);
+            return String.IsNullOrEmpty(value.Item.Plate) || String.IsNullOrEmpty(value.Item.Model) || String.IsNullOrEmpty(value.Item.Frame.ToString());
         }
         private bool ValidateHomeInsurance(PolicyDto value)
         {

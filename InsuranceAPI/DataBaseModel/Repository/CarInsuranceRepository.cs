@@ -5,20 +5,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataBaseModel.Repository;
 
-class CarInsuranceRepository: ICarInsuranceRepository
+public class CarInsuranceRepository: ICarInsuranceRepository
 {
     private readonly AppDbContext _context;
     public CarInsuranceRepository(AppDbContext context)
     {
         _context = context;
     }
-    public async Task<int> Add(CarParcelModel car)
+    public async Task Add(CarParcelModel car, bool save)
     {
         try
         {
             var returnModel = await _context.CarParcels.AddAsync(car);
-            await _context.SaveChangesAsync();
-            return returnModel.Entity.Id;
+            
+            if (save) 
+            {
+                await _context.SaveChangesAsync();
+            }
         }
         catch (Exception e)
         {

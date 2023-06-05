@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeWorker", "HomeWorker\Ho
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarWorker", "CarWorker\CarWorker.csproj", "{33D1F8E1-1B10-4344-BF5E-EE6368E50913}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelLib", "ModelLib\ModelLib.csproj", "{073DB837-6DF1-4C0E-8558-7BE6F16499B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{33D1F8E1-1B10-4344-BF5E-EE6368E50913}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33D1F8E1-1B10-4344-BF5E-EE6368E50913}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33D1F8E1-1B10-4344-BF5E-EE6368E50913}.Release|Any CPU.Build.0 = Release|Any CPU
+		{073DB837-6DF1-4C0E-8558-7BE6F16499B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{073DB837-6DF1-4C0E-8558-7BE6F16499B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{073DB837-6DF1-4C0E-8558-7BE6F16499B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{073DB837-6DF1-4C0E-8558-7BE6F16499B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -46,6 +46,6 @@ HomeWorker
  or Test/Run All Tests on Visual Studio
 
  ``` 
-## Directories like that
+## Directories like that:
  ![prompt](./images/directory.PNG)
  

@@ -22,12 +22,12 @@ public class PolicyDtoBuilder
 
     public PolicyDtoBuilder WithValuesFilled()
     {
-        _amountDto.Total = _faker.Random.Double(1000, 100000);
+        _amountDto.Total = _faker.Random.Decimal(1000, 100000);
         _amountDto.Parcel = _faker.Random.Int(1, 12);
         return this;
     }
 
-    public PolicyDtoBuilder WithValuesTotal(double total)
+    public PolicyDtoBuilder WithValuesTotal(Decimal total)
     {
         _amountDto.Total = total;
         return this;

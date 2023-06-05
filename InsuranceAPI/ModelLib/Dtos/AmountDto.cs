@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace InsuranceAPI.Dto
+namespace ModelLib.Dtos
 {
     public class AmountDto
     {

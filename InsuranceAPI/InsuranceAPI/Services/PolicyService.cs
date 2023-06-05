@@ -39,8 +39,8 @@ namespace InsuranceAPI.Services
             var jsonString = JsonSerializer.Serialize(policy,
                 new JsonSerializerOptions
                 {
-                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-                    WriteIndented = true
+                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+                    //,WriteIndented = true
                 });
 
             var body = Encoding.UTF8.GetBytes(jsonString);

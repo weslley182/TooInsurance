@@ -8,6 +8,8 @@
  - User: guest
  - Password: guest
 
+![prompt](./images/exchange.PNG)
+
 ## On Windows, after install Docker Desktop, run line below:
  - docker run -d --hostname rmq --name rabbit-server -p 8080:15672 -p 5672:5672 rabbitmq:3-management
 
@@ -17,7 +19,7 @@
  - SDK .Net 6
  - Entity Framework
 
-## On Library DadaBaseModel Run these commands:
+## On Library DataBaseModel Run these commands:
  - dotnet clean
  - dotnet build
  - dotnet ef database update

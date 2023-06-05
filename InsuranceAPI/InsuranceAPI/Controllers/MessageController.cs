@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 
 namespace InsuranceAPI.Controllers;
-
+/// <summary>
+/// Controller responsable for first messages of API
+/// </summary>
 [ApiController]
 [Route(template: "v1/Message")]
 public class MessageController : ControllerBase
@@ -13,6 +15,10 @@ public class MessageController : ControllerBase
         _repo = repo;
     }
 
+    /// <summary>
+    /// Get all sent messages
+    /// </summary>
+    /// <returns>list of messages</returns>
     [HttpGet]
     public async Task<ActionResult> GetAll()
     {

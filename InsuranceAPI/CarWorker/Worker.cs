@@ -1,7 +1,5 @@
 using CarWorker.Services;
-using CarWorker.Services.Interface;
 using DataBaseModel.Data;
-using DataBaseModel.Repository.Interface;
 
 namespace CarWorker
 {
@@ -18,10 +16,10 @@ namespace CarWorker
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("Start Service.");
-            var scope = _serviceProvider.CreateScope();            
+            var scope = _serviceProvider.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            var consumer = new ConsumerService(dbContext);
+            var consumer = new ConsumerCarService(dbContext);
             await consumer.StartConsuming(stoppingToken);
 
             while (!stoppingToken.IsCancellationRequested)
@@ -31,6 +29,6 @@ namespace CarWorker
             }
 
             _logger.LogInformation("End Service.");
-        }        
+        }
     }
 }

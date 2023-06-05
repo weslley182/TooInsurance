@@ -1,16 +1,16 @@
-﻿using DataBaseModel.Repository.Interface;
-using ModelLib.Dtos;
+﻿using DataBaseModel.Model;
+using DataBaseModel.Repository.Interface;
 using InsuranceAPI.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
+using ModelLib.Dtos;
 using System.Text.Json;
-using DataBaseModel.Model;
 using System.Text.Json.Serialization;
 
 namespace InsuranceAPI.Controllers;
 
 [ApiController]
 [Route(template: "v1/Insurance")]
-public class InsuranceController: ControllerBase
+public class InsuranceController : ControllerBase
 {
     private readonly IPolicyService _policyService;
     private readonly IMessageRepository _repo;
@@ -18,11 +18,11 @@ public class InsuranceController: ControllerBase
     {
         _policyService = policyService;
         _repo = repo;
-    }    
+    }
 
     [HttpPost]
     public async Task<ActionResult> SendInsuranceAsync([FromBody] PolicyDto policy)
-    {        
+    {
 
         if (!ModelState.IsValid)
         {

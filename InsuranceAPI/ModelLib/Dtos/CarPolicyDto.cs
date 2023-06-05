@@ -19,6 +19,6 @@ namespace ModelLib.Dtos
 
         public int? MessageId { get; set; }
 
-        
+
     }
 }

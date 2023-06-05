@@ -1,9 +1,8 @@
-﻿using ModelLib.Constants;
-using LinkDotNet.ValidationExtensions;
+﻿using LinkDotNet.ValidationExtensions;
+using ModelLib.Constants;
+using ModelLib.Validation;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using ModelLib.Dtos;
-using ModelLib.Validation;
 
 namespace ModelLib.Dtos
 {

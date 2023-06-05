@@ -1,6 +1,6 @@
-﻿using System.Net.Http.Json;
+﻿using DataBaseModel.Model;
 using System.Net;
-using DataBaseModel.Model;
+using System.Net.Http.Json;
 
 namespace InsuranceAPI.Tests.Controller;
 
@@ -11,7 +11,7 @@ public class MessageControllerTests
     private string _url = "v1/Message";
 
     [SetUp]
-    public void BaseSetUp() 
+    public void BaseSetUp()
     {
         _application = new InsuranceApiApplication();
         _client = _application.CreateClient();
@@ -20,7 +20,7 @@ public class MessageControllerTests
     [Test]
     public async Task GET_Return_all_messages()
     {
-        await InsuranceMockData.CreateMessages(_application, true);         
+        await InsuranceMockData.CreateMessages(_application, true);
 
         var result = await _client.GetAsync(_url);
         var messages = await _client.GetFromJsonAsync<List<MessageModel>>(_url);
@@ -28,5 +28,5 @@ public class MessageControllerTests
         Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
         Assert.IsNotNull(messages);
         Assert.AreEqual(2, messages.Count);
-    }    
+    }
 }

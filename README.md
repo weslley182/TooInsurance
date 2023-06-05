@@ -11,7 +11,7 @@
 ## On Windows, after install Docker Desktop, run line below
  - docker run -d --hostname rmq --name rabbit-server -p 8080:15672 -p 5672:5672 rabbitmq:3-management
 
-## On Windows and Linux:
+## On Windows:
  - Visual Studio 2022 Community Or VS Code
  - Sqlite3
  - SDK .Net 6

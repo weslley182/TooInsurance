@@ -1,19 +1,18 @@
 ﻿using DataBaseModel.Model;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
 
 namespace DataBaseModel.Data;
 
-public class AppDbContext: DbContext
-{    
+public class AppDbContext : DbContext
+{
     public AppDbContext(DbContextOptions<AppDbContext> options)
     : base(options)
     {
-        
+
     }
-    
+
     public DbSet<MessageModel> Messages { get; set; }
     public DbSet<CarParcelModel> CarParcels { get; set; }
 
@@ -28,6 +27,8 @@ public class AppDbContext: DbContext
             var connectionString = configuration.GetConnectionString("InsuranceAPIConnection");
             optionsBuilder.UseSqlite(connectionString);
         }
+        //optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.ManyServiceProvidersCreatedWarning));
+
         optionsBuilder.LogTo(Console.WriteLine);
     }
 

@@ -47,12 +47,12 @@ Payload_2
     "produto": 222,
     "item":{
         "placa": "ABC1234",
-        "chassis": "123213",
+        "chassis": "3Bha5N6hxtt593639",
         "modelo": "PORCHE"
     },
     "valores":{
-        "precoTotal": 3000.00,
-        "parcelas": 12
+        "precoTotal": 1000.00,
+        "parcelas": 3
     }
 }
 ```

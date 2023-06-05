@@ -12,14 +12,16 @@ using Moq;
 namespace InsuranceAPI.Tests;
 public class InsuranceApiApplication : WebApplicationFactory<Program>
 {
+    private readonly Mock<IPolicyService> mock = new Mock<IPolicyService>();
     protected override IHost CreateHost(IHostBuilder builder)
     {
-        var mock = new Mock<IPolicyService>();
+
         var root = new InMemoryDatabaseRoot();
 
         builder.ConfigureServices(services =>
         {
             services.RemoveAll(typeof(DbContextOptions<AppDbContext>));
+            services.RemoveAll(typeof(IPolicyService));
 
             services.AddDbContext<AppDbContext>(options =>
                 options.UseInMemoryDatabase("InsuranceAPIDatabase", root));

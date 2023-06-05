@@ -7,28 +7,28 @@ namespace ModelLib.Dtos
         [JsonPropertyName("Endereco")]
         public Address? Address { get; set; }
 
-        [JsonPropertyName("Inquilino")]        
+        [JsonPropertyName("Inquilino")]
         public PhysicalPerson? Tenant { get; set; }
 
-        [JsonPropertyName("Beneficiario")]        
+        [JsonPropertyName("Beneficiario")]
         public LegalPerson? Recipient { get; set; }
 
-        [JsonPropertyName("Placa")]        
+        [JsonPropertyName("Placa")]
         public string? Plate { get; set; }
 
-        [JsonPropertyName("Chassis")]        
+        [JsonPropertyName("Chassis")]
         public string? Frame { get; set; }
 
-        [JsonPropertyName("Modelo")]        
+        [JsonPropertyName("Modelo")]
         public string? Model { get; set; }
-        
+
     }
 
     public class Address
     {
         [JsonPropertyName("Rua")]
         public string? Street { get; set; }
-        
+
         [JsonPropertyName("Numero")]
         public int? Number { get; set; }
     }
@@ -38,15 +38,15 @@ namespace ModelLib.Dtos
         public string? Name { get; set; }
     }
 
-    public class LegalPerson: Person
+    public class LegalPerson : Person
     {
         [JsonPropertyName("CNPJ")]
         public double? FedTaxIdNumber { get; set; }
     }
 
-    public class PhysicalPerson: Person
+    public class PhysicalPerson : Person
     {
         [JsonPropertyName("CPF")]
         public double? TaxIdNumber { get; set; }
-    }    
+    }
 }

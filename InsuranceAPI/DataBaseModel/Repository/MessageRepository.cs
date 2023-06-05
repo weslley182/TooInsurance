@@ -2,11 +2,10 @@
 using DataBaseModel.Model;
 using DataBaseModel.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace DataBaseModel.Repository;
 
-public class MessageRepository: IMessageRepository
+public class MessageRepository : IMessageRepository
 {
     private readonly AppDbContext _context;
     public MessageRepository(AppDbContext context)

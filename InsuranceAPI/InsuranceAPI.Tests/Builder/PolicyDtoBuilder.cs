@@ -1,5 +1,4 @@
 ﻿using Bogus;
-using Bogus.DataSets;
 using Bogus.Extensions.Brazil;
 using ModelLib.Constants;
 using ModelLib.Dtos;
@@ -9,11 +8,11 @@ namespace InsuranceAPI.Tests.Builder;
 
 public class PolicyDtoBuilder
 {
-    private Faker _faker = new();    
+    private Faker _faker = new();
     private PolicyDto _policyDto = new();
     private AmountDto _amountDto = new();
     private GeneralDto _generalDto = new();
-    
+
     public PolicyDtoBuilder WithProduct(int cod)
     {
         _policyDto.Product = cod;
@@ -34,7 +33,7 @@ public class PolicyDtoBuilder
     }
 
     public PolicyDtoBuilder WithValuesParcel(int parcel)
-    {        
+    {
         _amountDto.Parcel = parcel;
         return this;
     }
@@ -62,7 +61,7 @@ public class PolicyDtoBuilder
     }
 
     public PolicyDtoBuilder WithCarFrame(string? frame)
-    {        
+    {
         _generalDto.Frame = frame;
         return this;
     }
@@ -70,7 +69,7 @@ public class PolicyDtoBuilder
     public PolicyDtoBuilder WithHomeFullFilled()
     {
         var onlyNumbers = new Regex(@"[^\d]");
-        
+
         _policyDto.Product = RabbitConstants.HomeInsuranceCod;
         var address = new ModelLib.Dtos.Address();
         var tenant = new PhysicalPerson();
@@ -86,7 +85,7 @@ public class PolicyDtoBuilder
         recipient.Name = _faker.Company.CompanyName();
         var cnpj = _faker.Company.Cnpj();
         recipient.FedTaxIdNumber = Double.Parse(onlyNumbers.Replace(cnpj, ""));
-        
+
         _generalDto.Address = address;
         _generalDto.Tenant = tenant;
         _generalDto.Recipient = recipient;
@@ -125,7 +124,7 @@ public class PolicyDtoBuilder
 
     public PolicyDtoBuilder WithHomeRecId(double number)
     {
-        _generalDto.Recipient.FedTaxIdNumber= number;
+        _generalDto.Recipient.FedTaxIdNumber = number;
         return this;
     }
 

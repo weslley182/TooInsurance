@@ -1,11 +1,9 @@
 using DataBaseModel.Data;
 using DataBaseModel.Repository;
 using DataBaseModel.Repository.Interface;
-using DataBaseMOdel;
 using InsuranceAPI.Services;
 using InsuranceAPI.Services.Interface;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,8 +37,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 //{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+app.UseSwagger();
+app.UseSwaggerUI();
 //}
 
 app.UseHttpsRedirection();

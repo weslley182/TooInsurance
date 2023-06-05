@@ -1,27 +1,25 @@
-﻿using RabbitMQ.Client.Events;
-using RabbitMQ.Client;
-using System.Text;
-using DataBaseModel.Repository.Interface;
-using System.Text.Json;
-using ModelLib.Dtos;
-using DataBaseModel.Model;
-using CarWorker.Services.Interface;
+﻿using CarWorker.Services.Interface;
 using DataBaseModel.Data;
-
+using DataBaseModel.Model;
+using ModelLib.Constants;
+using ModelLib.Dtos;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using System.Text;
+using System.Text.Json;
 
 namespace CarWorker.Services;
 
-public class ConsumerService: IConsumerService
-{    
-    private readonly ICarInsuranceRepository _repo;
+public class ConsumerCarService : IConsumerCarService
+{
     private readonly IConnection _connection;
     private readonly IModel _channel;
-    private const string QueueName = "car-insurance-queue";
-    private IConfiguration _configuration;    
+    private const string QueueName = RabbitConstants.CarInsuranceQueue;
+    private IConfiguration _configuration;
     private readonly AppDbContext _ctx;
-    
 
-    public ConsumerService(AppDbContext ctx)
+
+    public ConsumerCarService(AppDbContext ctx)
     {
         _ctx = ctx;
         _configuration = new ConfigurationBuilder()
@@ -35,7 +33,7 @@ public class ConsumerService: IConsumerService
             UserName = _configuration.GetValue<string>("RabbitMQ:Username"),
             Password = _configuration.GetValue<string>("RabbitMQ:Password")
         };
-    
+
         _connection = factory.CreateConnection();
         _channel = _connection.CreateModel();
         _channel.QueueDeclare(QueueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
@@ -47,7 +45,7 @@ public class ConsumerService: IConsumerService
         consumer.Received += async (sender, eventArgs) =>
         {
             var body = eventArgs.Body.ToArray();
-            var message = Encoding.UTF8.GetString(body);            
+            var message = Encoding.UTF8.GetString(body);
             var model = JsonSerializer.Deserialize<CarPolicyDto>(message);
 
             await SaveToDatabase(model);
@@ -69,9 +67,9 @@ public class ConsumerService: IConsumerService
         var remnant = model.Values.Total - (amount * parcels);
         try
         {
-            for(int count = 1; count <= parcels; count++)
+            for (int count = 1; count <= parcels; count++)
             {
-                remnant = count == 1 ? remnant : 0;                
+                remnant = count == 1 ? remnant : 0;
                 var car = new CarParcelModel()
                 {
 
@@ -79,7 +77,7 @@ public class ConsumerService: IConsumerService
                     Amount = amount + remnant,
                     MessageId = model.MessageId
                 };
-                _ctx.CarParcels.Add(car);                
+                _ctx.CarParcels.Add(car);
             }
             _ctx.SaveChanges();
         }
@@ -87,5 +85,5 @@ public class ConsumerService: IConsumerService
         {
             throw new Exception("Error to save parcels" + ex.Message);
         }
-    }    
+    }
 }

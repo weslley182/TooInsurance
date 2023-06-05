@@ -1,17 +1,16 @@
-﻿using System.Net;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Text.Json;
-using InsuranceAPI.Services.Interface;
-using Moq;
-using Microsoft.Extensions.DependencyInjection;
+﻿using InsuranceAPI.Services.Interface;
 using InsuranceAPI.Tests.Builder;
-using InsuranceAPI.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Moq;
+using System.Net;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace InsuranceAPI.Tests.Controller;
 
 public class InsuranceControllerTests
-{    
+{
     private InsuranceApiApplication _application;
     private string _url = "v1/Insurance";
     private HttpClient _httpClient;
@@ -21,7 +20,7 @@ public class InsuranceControllerTests
     {
         var policyServiceMock = new Mock<IPolicyService>();
         _application = new InsuranceApiApplication();
-        _httpClient=  _application.CreateClient();
+        _httpClient = _application.CreateClient();
     }
 
     [Test]
@@ -67,7 +66,7 @@ public class InsuranceControllerTests
             .WithProduct(0)
             .WithValuesFilled()
             .Build();
-        
+
         var client = BuildApp(_url).Result;
 
         var json = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
@@ -84,7 +83,7 @@ public class InsuranceControllerTests
             .WithCarPlate(null)
             .WithValuesFilled()
             .Build();
-        
+
         var client = BuildApp(_url).Result;
 
         var json = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
@@ -97,7 +96,7 @@ public class InsuranceControllerTests
     public async Task POST_No_Model_Must_return_bad_request()
     {
         var carInsurance = new PolicyDtoBuilder()
-            .WithCarFullFilled()            
+            .WithCarFullFilled()
             .WithValuesFilled()
             .WithCarModel(null)
             .Build();
@@ -131,7 +130,7 @@ public class InsuranceControllerTests
     public async Task POST_No_Parcel_Must_return_bad_request()
     {
         var carInsurance = new PolicyDtoBuilder()
-            .WithCarFullFilled()            
+            .WithCarFullFilled()
             .WithValuesFilled()
             .WithValuesParcel(0)
             .Build();
@@ -143,7 +142,7 @@ public class InsuranceControllerTests
 
         Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
     }
-    
+
     [Test]
     public async Task POST_No_Total_Must_return_bad_request()
     {
@@ -165,7 +164,7 @@ public class InsuranceControllerTests
     public async Task POST_No_Values_Must_return_bad_request()
     {
         var carInsurance = new PolicyDtoBuilder()
-            .WithCarFullFilled()            
+            .WithCarFullFilled()
             .Build();
 
         //var client = BuildApp(_url).Result;
@@ -180,7 +179,7 @@ public class InsuranceControllerTests
     public async Task POST_No_Adress_Must_return_bad_request()
     {
         var homeInsurance = new PolicyDtoBuilder()
-            .WithHomeFullFilled()            
+            .WithHomeFullFilled()
             .WithValuesFilled()
             .WithHomeAdress(null)
             .Build();
@@ -227,14 +226,48 @@ public class InsuranceControllerTests
         Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
     }
 
+    [Test]
+    public async Task POST_No_StreetNumber_Must_return_bad_request3()
+    {
+        var homeInsurance = new PolicyDtoBuilder()
+            .WithHomeFullFilled()
+            .WithValuesFilled()
+            .WithHomeStreetNumber(0)
+            .Build();
+
+        //var client = BuildApp(_url).Result;
+
+        var json = JsonSerializer.Serialize(homeInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+        var result = await _httpClient.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
+
+        Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
+    }
+
+    [Test]
+    public async Task POST_No_StreetNumber_Must_return_bad_request2()
+    {
+        var homeInsurance = new PolicyDtoBuilder()
+            .WithHomeFullFilled()
+            .WithValuesFilled()
+            .WithHomeStreetNumber(0)
+            .Build();
+
+        //var client = BuildApp(_url).Result;
+
+        var json = JsonSerializer.Serialize(homeInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+        var result = await _httpClient.PostAsync(_url, new StringContent(json, Encoding.UTF8, "application/json"));
+
+        Assert.AreEqual(HttpStatusCode.BadRequest, result.StatusCode);
+    }
+
     private async Task<HttpClient>? BuildApp(string url, Mock mock = null)
     {
         await InsuranceMockData.CreateMessages(_application, false);
-        if(mock == null)
+        if (mock == null)
         {
             mock = new Mock<IPolicyService>();
             return _application.WithWebHostBuilder(builder =>
-            {                
+            {
                 builder.ConfigureServices(services =>
                 {
                     //services.Remove<IPolicyService>();

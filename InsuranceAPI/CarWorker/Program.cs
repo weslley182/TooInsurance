@@ -12,11 +12,11 @@ IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         services.AddHostedService<Worker>();
-        
+
         services.AddDbContext<AppDbContext>(options =>
-        {            
+        {
             options.UseSqlite(libraryConfig.GetConnectionString("InsuranceAPIConnectionRelativePath"));
-        });      
+        });
     })
     .Build();
 

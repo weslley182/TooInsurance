@@ -1,8 +1,8 @@
 ﻿using DataBaseModel.Data;
 using DataBaseModel.Model;
+using Microsoft.Extensions.DependencyInjection;
 using ModelLib.Constants;
 using ModelLib.Dtos;
-using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -34,11 +34,11 @@ public class InsuranceMockData
                 if (create)
                 {
                     await dbContext.Messages.AddAsync(new MessageModel
-                        { Id = 1, Model = JsonSerializer.Serialize(homeInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull }) }
+                    { Id = 1, Model = JsonSerializer.Serialize(homeInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull }) }
                     );
 
                     await dbContext.Messages.AddAsync(new MessageModel
-                        { Id = 2, Model = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull }) }
+                    { Id = 2, Model = JsonSerializer.Serialize(carInsurance, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull }) }
                     );
 
                     await dbContext.SaveChangesAsync();

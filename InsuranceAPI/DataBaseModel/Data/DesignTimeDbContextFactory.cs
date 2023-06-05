@@ -17,7 +17,7 @@ namespace DataBaseMOdel
 
             var builder = new DbContextOptionsBuilder<AppDbContext>();
             var connectionString = configuration.GetConnectionString("InsuranceAPIConnection");
-            builder.UseSqlite(connectionString);            
+            builder.UseSqlite(connectionString);
 
             return new AppDbContext(builder.Options);
         }

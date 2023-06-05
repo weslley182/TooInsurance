@@ -6,7 +6,7 @@ namespace ModelLib.Validation;
 public class PolicyValidation
 {
     public bool ValidateRequired_Item(PolicyDto value)
-    {            
+    {
         switch (value.Product)
         {
             case RabbitConstants.CarInsuranceCod:
@@ -15,7 +15,7 @@ public class PolicyValidation
                 return ValidateHomeInsurance(value);
             default:
                 return true;
-        }            
+        }
     }
 
     private bool ValidateCarInsurance(PolicyDto value)

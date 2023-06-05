@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataBaseModel.Repository;
 
-public class CarInsuranceRepository: ICarInsuranceRepository
+public class CarInsuranceRepository : ICarInsuranceRepository
 {
     private readonly AppDbContext _context;
     public CarInsuranceRepository(AppDbContext context)
@@ -17,8 +17,8 @@ public class CarInsuranceRepository: ICarInsuranceRepository
         try
         {
             var returnModel = await _context.CarParcels.AddAsync(car);
-            
-            if (save) 
+
+            if (save)
             {
                 await _context.SaveChangesAsync();
             }

@@ -1,6 +1,6 @@
-﻿using ModelLib.Constants;
+﻿using InsuranceAPI.Services.Interface;
+using ModelLib.Constants;
 using ModelLib.Dtos;
-using InsuranceAPI.Services.Interface;
 using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 
 namespace InsuranceAPI.Services
 {
-    public class PolicyService: IPolicyService
+    public class PolicyService : IPolicyService
     {
         private IConfiguration _configuration;
 
@@ -22,14 +22,14 @@ namespace InsuranceAPI.Services
         public async Task SendPolicy(PolicyDto policy)
         {
             try
-            {                
+            {
                 Send(policy);
             }
             catch (Exception e)
             {
                 throw new Exception("Error to send queue: " + e.Message);
             }
-        }        
+        }
 
         private void Send(PolicyDto policy)
         {
@@ -62,11 +62,11 @@ namespace InsuranceAPI.Services
         }
 
         private void CreateQueueConfig(IModel channel)
-        {            
+        {
             channel.ExchangeDeclare(
-                exchange: RabbitConstants.DefaultTooExchange, 
+                exchange: RabbitConstants.DefaultTooExchange,
                 type: ExchangeType.Direct);
-            
+
             channel.QueueDeclare(
                 queue: RabbitConstants.HomeInsuranceQueue,
                 durable: true,
@@ -79,7 +79,7 @@ namespace InsuranceAPI.Services
                 durable: true,
                 exclusive: false,
                 autoDelete: false,
-                arguments: null);            
+                arguments: null);
 
             channel.QueueBind(
                 queue: RabbitConstants.HomeInsuranceQueue,

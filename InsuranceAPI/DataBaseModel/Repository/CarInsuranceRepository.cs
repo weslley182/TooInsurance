@@ -16,9 +16,9 @@ public class CarInsuranceRepository : ICarInsuranceRepository
     {
         try
         {
-            var returnModel = await _context.CarParcels.AddAsync(car);            
+            var returnModel = await _context.CarParcels.AddAsync(car);
             await _context.SaveChangesAsync();
-            
+
         }
         catch (Exception e)
         {

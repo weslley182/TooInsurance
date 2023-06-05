@@ -25,7 +25,7 @@ public class HomeParcelsController : ControllerBase
     public async Task<ActionResult> GetByMessageId([FromRoute] int id)
     {
         var homes = await _repo.GetAllAsync();
-        var home = homes.Where(h => h.MessageId == id);        
+        var home = homes.Where(h => h.MessageId == id);
         return home == null ? NotFound() : Ok(home);
     }
 }

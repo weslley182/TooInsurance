@@ -27,7 +27,7 @@ public class AppDbContext : DbContext
                 .Build();
             var connectionString = configuration.GetConnectionString("InsuranceAPIConnection");
             optionsBuilder.UseSqlite(connectionString);
-        }        
+        }
 
         optionsBuilder.LogTo(Console.WriteLine);
     }

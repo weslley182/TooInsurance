@@ -23,9 +23,9 @@
  - dotnet ef database update
 
 ## Run commands on:
-InsuranceAPI
-CarWorker
-HomeWorker
+ - InsuranceAPI
+ - CarWorker
+ - HomeWorker
 
   ```bash
   

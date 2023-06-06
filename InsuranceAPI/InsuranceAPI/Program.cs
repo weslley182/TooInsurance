@@ -1,6 +1,7 @@
 using DataBaseModel.Data;
 using DataBaseModel.Repository;
 using DataBaseModel.Repository.Interface;
+using InsuranceAPI.Data;
 using InsuranceAPI.Services;
 using InsuranceAPI.Services.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<ICarInsuranceRepository, CarInsuranceRepository>();
 builder.Services.AddScoped<IHomeInsuranceRepository, HomeInsuranceRepository>();
+builder.Services.AddTransient<DbInitializer>();
 
 builder.Services.AddSwaggerGen(opt =>
 {
@@ -38,6 +40,10 @@ builder.Services.AddSwaggerGen(opt =>
 });
 
 var app = builder.Build();
+
+var services = app.Services.CreateScope().ServiceProvider;
+var initialiser = services.GetRequiredService<DbInitializer>();
+initialiser.Run();
 
 app.UseSwagger();
 app.UseSwaggerUI();

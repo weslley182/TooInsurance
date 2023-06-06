@@ -23,8 +23,15 @@ public class CarParcelsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> GetAll()
     {
-        var parcels = await _repo.GetAllAsync();
-        return !parcels.Any() ? NotFound() : Ok(parcels);
+        try
+        {
+            var parcels = await _repo.GetAllAsync();
+            return !parcels.Any() ? NotFound() : Ok(parcels);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(503, ex.Message);
+        }
     }
 
     /// <summary>
@@ -36,8 +43,15 @@ public class CarParcelsController : ControllerBase
     [Route("GetByMessageId/{id}")]
     public async Task<ActionResult> GetByMessageId([FromRoute] int id)
     {
-        var cars = await _repo.GetAllAsync();
-        var car = cars.Where(h => h.MessageId == id);
-        return car == null ? NotFound() : Ok(car);
+        try
+        {
+            var cars = await _repo.GetAllAsync();
+            var car = cars.Where(h => h.MessageId == id);
+            return car == null ? NotFound() : Ok(car);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(503, ex.Message);
+        }
     }
 }

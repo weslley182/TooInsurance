@@ -36,7 +36,7 @@ public class MessageControllerTests
     }
 
     [Test]
-    public async Task GET_must_receive_exception_connection()
+    public async Task GET_must_receive_service_unavailable()
     {
         var carInsurance = new PolicyDtoBuilder()
             .WithCarFullFilled()
@@ -49,7 +49,7 @@ public class MessageControllerTests
         var client = BuildApp(messageRepoMock);
         var result = await client.GetAsync(_url);
 
-        Assert.AreEqual(result.StatusCode, HttpStatusCode.InternalServerError);
+        Assert.AreEqual(HttpStatusCode.ServiceUnavailable, result.StatusCode);
     }
 
     private HttpClient BuildApp(Mock<IMessageRepository> mock)

@@ -23,7 +23,14 @@ public class MessageController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> GetAll()
     {
-        var messages = await _repo.GetAllAsync();
-        return !messages.Any() ? NotFound() : Ok(messages);
+        try
+        {
+            var messages = await _repo.GetAllAsync();
+            return !messages.Any() ? NotFound() : Ok(messages);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(503, ex.Message);
+        }
     }
 }

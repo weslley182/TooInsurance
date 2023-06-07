@@ -5,6 +5,7 @@
 ![solution](./avalicao-tecnica-dados/doc/diagrama_teste.png)
 
 ## Rabbit info
+ - http://localhost:8080/
  - User: guest
  - Password: guest
 
@@ -18,11 +19,6 @@
  - Sqlite3
  - SDK .Net 6
  - Entity Framework
-
-## On Library DataBaseModel Run these commands:
- - dotnet clean
- - dotnet build
- - dotnet ef database update
 
 ## Open 3 Consoles and run each of then, run commands on:
  - InsuranceAPI

@@ -1,42 +1,53 @@
 - hosts: terraform-ansible
+  become: true
+  become_method: sudo
   tasks:
 
-  - name: Configure RabbitMQ
-    hosts: "{{ tf_result['outputs']['public_ip']['value'] }}"
-    become: true
-    gather_facts: true
-    tasks:
-      - name: Install RabbitMQ
-        apt:
-          name: rabbitmq-server
-          state: latest
+  - name: Install RabbitMQ
+    apt:
+      name: rabbitmq-server
+      state: latest
 
-      - name: Configure RabbitMQ port
-        lineinfile:
-          dest: /etc/rabbitmq/rabbitmq.conf
-          line: listener.tcp.default = 8080
+  - name: Enable RabbitMQ Management Plugin
+    shell: rabbitmq-plugins enable rabbitmq_management
 
-      - name: Start RabbitMQ service
-        service:
-          name: rabbitmq-server
-          state: started
-          enabled: true
+  - name: Create RabbitMQ configuration directory
+    become: yes
+    become_user: root
+    file:
+      path: /etc/rabbitmq
+      state: directory
 
-  # - name: instalando pacotes
-  #   apt:
-  #     pkg:
-  #     - python3
-  #     - virtualenv
-  #     update_cache: yes
-  #   become: yes
-  # - name: Executar a bagaça
-  #   copy: caminho
-  # - name: criar servidor
-  #   shell: "nohup busybox httpd -f -p 8081 &"
-  
-  # - name: Instalando dependências com pip ( podemos trocar o nome da tarefa)
-  #   pip:
-  #     virtualenv: /home/ubuntu/tcc/venv
-  #     name:
-  #       - django
-  #       - djangorestframework
+  - name: Create RabbitMQ configuration file
+    become: yes
+    become_user: root
+    copy:
+      dest: /etc/rabbitmq/rabbitmq.conf
+      content: |
+        loopback_users = none
+
+  - name: Start RabbitMQ service
+    service:
+      name: rabbitmq-server
+      state: started
+      enabled: true
+
+  - name: Install curl
+    apt:
+      name: curl
+      state: present
+
+  - name: Wait for RabbitMQ to start
+    wait_for:
+      host: 127.0.0.1
+      port: 15672
+      delay: 10
+      timeout: 60
+
+  - name: Retrieve RabbitMQ Configuration Page
+    command: curl -s http://localhost:15672
+    register: config_page
+
+  - name: Display RabbitMQ Configuration Page
+    debug:
+      var: config_page.stdout

@@ -1,0 +1,50 @@
+- name: Playbook RabbitMQ
+  tasks:
+    - name: Install RabbitMQ
+      apt:
+        name: rabbitmq-server
+        state: latest
+
+    - name: Enable RabbitMQ Management Plugin
+      shell: rabbitmq-plugins enable rabbitmq_management
+
+    - name: Create RabbitMQ configuration directory
+      become: true
+      become_user: root
+      file:
+        path: /etc/rabbitmq
+        state: directory
+
+    - name: Create RabbitMQ configuration file
+      become: true
+      become_user: root
+      copy:
+        dest: /etc/rabbitmq/rabbitmq.conf
+        content: |
+          loopback_users = none
+
+    - name: Start RabbitMQ service
+      service:
+        name: rabbitmq-server
+        state: started
+        enabled: true
+
+    - name: Install curl
+      apt:
+        name: curl
+        state: present
+
+    - name: Wait for RabbitMQ to start
+      wait_for:
+        host: 127.0.0.1
+        port: 15672
+        delay: 10
+        timeout: 60
+
+    - name: Retrieve RabbitMQ Configuration Page
+      command: curl -s http://localhost:15672
+      register: config_page
+
+    - name: Display RabbitMQ Configuration Page
+      debug:
+        var: config_page.stdout

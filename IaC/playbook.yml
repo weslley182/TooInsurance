@@ -3,25 +3,6 @@
   become_method: sudo
   tasks:
 
-  # - name: Download .NET 6 SDK installer script
-  #   get_url:
-  #     url: https://dot.net/v1/dotnet-install.sh
-  #     dest: /tmp/dotnet-install.sh
-  #     mode: "0755"
-
-  # - name: Install .NET 6 SDK
-  #   become: yes
-  #   become_user: root
-  #   command: /tmp/dotnet-install.sh --install-dir /opt/dotnet --channel 6.0 --version 6.0.100 --no-path
-
-  # - name: Check .NET 6 SDK version
-  #   shell: dotnet --version
-  #   register: dotnet_version
-
-  # - name: Display .NET 6 SDK version
-  #   debug:
-  #     var: dotnet_version.stdout
-
   - name: Clone GitHub repository
     become: yes
     become_user: root
@@ -29,120 +10,132 @@
       repo: https://github.com/weslley182/TooInsurance.git
       dest: /opt/TooInsurance
       version: insert-ioc
+      update: yes
 
-  # - name: Download dotnet 6
-  #   get_url:
-  #     url: "https://download.visualstudio.microsoft.com/download/pr/dd7d2255-c9c1-4c6f-b8ad-6e853d6bb574/c8e1b5f47bf17b317a84487491915178/dotnet-sdk-6.0.408-linux-x64.tar.gz"
-  #     dest: "/tmp/dotnet-sdk-6.0.408-linux-x64.tar.gz"
+  - name: Install RabbitMQ
+    apt:
+      name: rabbitmq-server
+      state: latest
 
-  # - name: Create .NET SDK directory
-  #   become: yes
-  #   become_user: root
-  #   file:
-  #     path: /opt/dotnet
-  #     state: directory
+  - name: Enable RabbitMQ Management Plugin
+    shell: rabbitmq-plugins enable rabbitmq_management
 
-  # - name: Extract .NET 6 SDK
-  #   command: tar -xf "/tmp/dotnet-sdk-6.0.408-linux-x64.tar.gz" -C "/opt/dotnet"
+  - name: Create RabbitMQ configuration directory
+    become: yes
+    become_user: root
+    file:
+      path: /etc/rabbitmq
+      state: directory
 
-  # - name: Set .NET 6 SDK path
-  #   lineinfile:
-  #     path: "/etc/profile"
-  #     line: "export PATH=\"$PATH:/opt/dotnet\""
-  #     state: present
+  - name: Create RabbitMQ configuration file
+    become: yes
+    become_user: root
+    copy:
+      dest: /etc/rabbitmq/rabbitmq.conf
+      content: |
+        loopback_users = none
 
-  # - name: Check .NET 6 SDK version
-  #   shell: /opt/dotnet/dotnet --version
-  #   register: dotnet_version
+  - name: Restart RabbitMQ service
+    become: yes
+    become_user: root
+    service:
+      name: rabbitmq-server
+      state: restarted
+      enabled: true
 
-  # - name: Display .NET 6 SDK version
-  #   debug:
-  #     var: dotnet_version.stdout
+  - name: Install curl
+    apt:
+      name: curl
+      state: present
 
-  # - name: Install RabbitMQ
-  #   apt:
-  #     name: rabbitmq-server
-  #     state: latest
+  - name: Wait for RabbitMQ to start
+    wait_for:
+      host: 127.0.0.1
+      port: 15672
+      delay: 10
+      timeout: 60
 
-  # - name: Enable RabbitMQ Management Plugin
-  #   shell: rabbitmq-plugins enable rabbitmq_management
+  - name: Retrieve RabbitMQ Configuration Page
+    command: curl -s http://localhost:15672
+    register: config_page
 
-  # - name: Create RabbitMQ configuration directory
-  #   become: yes
-  #   become_user: root
-  #   file:
-  #     path: /etc/rabbitmq
-  #     state: directory
+  - name: Display RabbitMQ Configuration Page
+    debug:
+      var: config_page.stdout
 
-  # - name: Create RabbitMQ configuration file
-  #   become: yes
-  #   become_user: root
-  #   copy:
-  #     dest: /etc/rabbitmq/rabbitmq.conf
-  #     content: |
-  #       loopback_users = none
+  - name: Download dotnet 6
+    get_url:
+      url: "https://download.visualstudio.microsoft.com/download/pr/dd7d2255-c9c1-4c6f-b8ad-6e853d6bb574/c8e1b5f47bf17b317a84487491915178/dotnet-sdk-6.0.408-linux-x64.tar.gz"
+      dest: "/tmp/dotnet-sdk-6.0.408-linux-x64.tar.gz"
 
-  # - name: Start RabbitMQ service
-  #   service:
-  #     name: rabbitmq-server
-  #     state: started
-  #     enabled: true
+  - name: Create .NET SDK directory
+    become: yes
+    become_user: root
+    file:
+      path: /opt/dotnet
+      state: directory
 
-  # - name: Install curl
-  #   apt:
-  #     name: curl
-  #     state: present
+  - name: Extract .NET 6 SDK
+    command: tar -xf "/tmp/dotnet-sdk-6.0.408-linux-x64.tar.gz" -C "/opt/dotnet"
 
-  # - name: Wait for RabbitMQ to start
-  #   wait_for:
-  #     host: 127.0.0.1
-  #     port: 15672
-  #     delay: 10
-  #     timeout: 60
+  - name: Set .NET 6 SDK path
+    lineinfile:
+      path: "/etc/profile"
+      line: "export PATH=\"$PATH:/opt/dotnet\""
+      state: present
 
-  # - name: Retrieve RabbitMQ Configuration Page
-  #   command: curl -s http://localhost:15672
-  #   register: config_page
+  - name: Check .NET 6 SDK version
+    shell: /opt/dotnet/dotnet --version
+    register: dotnet_version
 
-  # - name: Display RabbitMQ Configuration Page
-  #   debug:
-  #     var: config_page.stdout
+  - name: Display .NET 6 SDK version
+    debug:
+      var: dotnet_version.stdout
 
-  # - name: Change permissions of a directory
-  #   become: true
-  #   file:
-  #     path: /opt/TooInsurance
-  #     state: directory
-  #     mode: '0777'
-  #     recurse: yes
+  - name: Change permissions of a directory
+    become: true
+    file:
+      path: /opt/TooInsurance
+      state: directory
+      mode: '0777'
+      recurse: yes
 
-  # - name: Change to API project directory
-  #   become: yes
-  #   become_user: root
-  #   shell: cd /opt/TooInsurance/InsuranceAPI/InsuranceAPI && pwd
-  #   args:
-  #     chdir: /opt/TooInsurance/InsuranceAPI/InsuranceAPI
+  - name: Change to API project directory
+    become: yes
+    become_user: root
+    shell: cd /opt/TooInsurance/InsuranceAPI/InsuranceAPI && pwd
+    args:
+      chdir: /opt/TooInsurance/InsuranceAPI/InsuranceAPI
 
-  # - name: Clean project
-  #   become: yes
-  #   become_user: root
-  #   shell: |
-  #     export PATH="/opt/dotnet:$PATH"
-  #     cd /opt/TooInsurance/InsuranceAPI/InsuranceAPI
-  #     dotnet clean
+  - name: Clean and build solution
+    become: yes
+    become_user: root
+    shell: |
+      export PATH="/opt/dotnet:$PATH"
+      cd /opt/TooInsurance/InsuranceAPI
+      dotnet clean
+      dotnet build InsuranceAPI.sln
+  
+  - name: Run API project
+    become: yes
+    become_user: root
+    shell: |
+      export PATH="/opt/dotnet:$PATH"
+      cd /opt/TooInsurance/InsuranceAPI/InsuranceAPI      
+      nohup dotnet run >/dev/null 2>&1 &
 
-  # - name: Build project
-  #   become: yes
-  #   become_user: root
-  #   shell: |
-  #     export PATH="/opt/dotnet:$PATH"
-  #     cd /opt/TooInsurance/InsuranceAPI/InsuranceAPI      
-  #     dotnet build
+  - name: Run CarWorker project
+    become: yes
+    become_user: root
+    shell: |
+      export PATH="/opt/dotnet:$PATH"
+      cd /opt/TooInsurance/InsuranceAPI/CarWorker      
+      nohup dotnet run >/dev/null 2>&1 &
 
-  # - name: Run project
-  #   become: yes
-  #   become_user: root
-  #   shell: |
-  #     export PATH="/opt/dotnet:$PATH"
-  #     cd /opt/TooInsurance/InsuranceAPI/InsuranceAPI      
-  #     dotnet run
+  - name: Run HomeWorker project
+    become: yes
+    become_user: root
+    shell: |
+      export PATH="/opt/dotnet:$PATH"
+      cd /opt/TooInsurance/InsuranceAPI/HomeWorker      
+      nohup dotnet run >/dev/null 2>&1 &            

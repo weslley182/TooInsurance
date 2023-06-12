@@ -9,7 +9,7 @@
     git:
       repo: https://github.com/weslley182/TooInsurance.git
       dest: /opt/TooInsurance
-      version: insert-ioc
+      version: Dev
       update: yes
 
   - name: Install RabbitMQ

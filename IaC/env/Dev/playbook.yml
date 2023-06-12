@@ -3,15 +3,20 @@
   become_method: sudo
   tasks:
 
+## Start Inserting project from Github
+
   - name: Clone GitHub repository
     become: yes
     become_user: root
-    git:
+    ansible.builtin.git:    
       repo: https://github.com/weslley182/TooInsurance.git
       dest: /opt/TooInsurance
       version: Dev
-      update: yes
+      force: yes
 
+## Finish Inserting project from Github
+
+## Start Rabbit install and configuration
   - name: Install RabbitMQ
     apt:
       name: rabbitmq-server
@@ -63,6 +68,9 @@
     debug:
       var: config_page.stdout
 
+## Finish Rabbit install and configuration
+
+## Start DotNet install and config
   - name: Download dotnet 6
     get_url:
       url: "https://download.visualstudio.microsoft.com/download/pr/dd7d2255-c9c1-4c6f-b8ad-6e853d6bb574/c8e1b5f47bf17b317a84487491915178/dotnet-sdk-6.0.408-linux-x64.tar.gz"
@@ -92,6 +100,9 @@
     debug:
       var: dotnet_version.stdout
 
+## Finish DotNet install and config
+
+## Start to Up the system
   - name: Change permissions of a directory
     become: true
     file:
@@ -107,6 +118,17 @@
     args:
       chdir: /opt/TooInsurance/InsuranceAPI/InsuranceAPI
 
+  - name: Verify process is running
+    shell: ps aux | grep InsuranceAPI
+    register: process_running
+    changed_when: false
+    ignore_errors: true
+
+  - name: Kill all running process
+    shell: pkill -f "InsuranceAPI|HomeWorker|CarWorker"
+    ignore_errors: true
+    when: process_running.stdout | length > 0
+
   - name: Clean and build solution
     become: yes
     become_user: root
@@ -115,13 +137,13 @@
       cd /opt/TooInsurance/InsuranceAPI
       dotnet clean
       dotnet build InsuranceAPI.sln
-  
+
   - name: Run API project
     become: yes
     become_user: root
     shell: |
       export PATH="/opt/dotnet:$PATH"
-      cd /opt/TooInsurance/InsuranceAPI/InsuranceAPI      
+      cd /opt/TooInsurance/InsuranceAPI/InsuranceAPI
       nohup dotnet run >/dev/null 2>&1 &
 
   - name: Run CarWorker project
@@ -129,7 +151,7 @@
     become_user: root
     shell: |
       export PATH="/opt/dotnet:$PATH"
-      cd /opt/TooInsurance/InsuranceAPI/CarWorker      
+      cd /opt/TooInsurance/InsuranceAPI/CarWorker
       nohup dotnet run >/dev/null 2>&1 &
 
   - name: Run HomeWorker project
@@ -137,5 +159,7 @@
     become_user: root
     shell: |
       export PATH="/opt/dotnet:$PATH"
-      cd /opt/TooInsurance/InsuranceAPI/HomeWorker      
-      nohup dotnet run >/dev/null 2>&1 &            
+      cd /opt/TooInsurance/InsuranceAPI/HomeWorker
+      nohup dotnet run >/dev/null 2>&1 &
+
+## Finish to Up the system           

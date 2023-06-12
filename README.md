@@ -48,4 +48,9 @@
 
 ## Directories like that:
  ![prompt](./images/directory.PNG)
- 
+
+ ### Cloud Configurations ADD on IaC directory, on Amazon its possible do use Rabbit and Swagger
+  - http://18.237.102.130:15672/#/
+  - https://18.237.102.130:7184/swagger/index.html
+
+ # The ip addres change each time the server is up, so, check on hosts.yml to change, and check Instances on AWS to check the IP

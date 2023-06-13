@@ -40,14 +40,16 @@ builder.Services.AddSwaggerGen(opt =>
 });
 
 builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
     {
-        options.AddDefaultPolicy(builder =>
-        {
-            builder.AllowAnyOrigin()
-                   .AllowAnyMethod()
-                   .AllowAnyHeader();
-        });
+        builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowedToAllowWildcardSubdomains()
+                .WithOrigins("https://0.0.0.0:7184");
     });
+});
 var app = builder.Build();
 
 var services = app.Services.CreateScope().ServiceProvider;

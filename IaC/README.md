@@ -18,3 +18,6 @@ ssh-keygen
 
 show IP from last apply
 terraform output
+terraform refresh
+
+testes com locust

@@ -39,6 +39,15 @@ builder.Services.AddSwaggerGen(opt =>
     opt.IncludeXmlComments(xmlPath);
 });
 
+builder.services.AddCors(options =>
+    {
+        options.AddDefaultPolicy(builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+    });
 var app = builder.Build();
 
 var services = app.Services.CreateScope().ServiceProvider;
@@ -53,6 +62,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors();
 
 app.Run();
 

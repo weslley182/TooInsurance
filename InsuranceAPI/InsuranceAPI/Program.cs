@@ -39,7 +39,7 @@ builder.Services.AddSwaggerGen(opt =>
     opt.IncludeXmlComments(xmlPath);
 });
 
-builder.services.AddCors(options =>
+builder.Services.AddCors(options =>
     {
         options.AddDefaultPolicy(builder =>
         {

@@ -47,7 +47,7 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .SetIsOriginAllowedToAllowWildcardSubdomains()
-                .WithOrigins("https://0.0.0.0:7184");
+                .WithOrigins("http://0.0.0.0:5095");
     });
 });
 var app = builder.Build();

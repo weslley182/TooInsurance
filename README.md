@@ -5,6 +5,7 @@
 ![solution](./avalicao-tecnica-dados/doc/diagrama_teste.png)
 
 ## Rabbit info
+ - http://localhost:8080/
  - User: guest
  - Password: guest
 
@@ -18,11 +19,6 @@
  - Sqlite3
  - SDK .Net 6
  - Entity Framework
-
-## On Library DataBaseModel Run these commands:
- - dotnet clean
- - dotnet build
- - dotnet ef database update
 
 ## Open 3 Consoles and run each of then, run commands on:
  - InsuranceAPI
@@ -52,4 +48,9 @@
 
 ## Directories like that:
  ![prompt](./images/directory.PNG)
- 
+
+ # Cloud Configurations ADD on IaC directory, on Amazon its possible to use Rabbit and Swagger
+  - http://54.212.1.237:15672/#/
+  - https://54.212.1.237:7184/swagger/index.html
+
+ ## The ip addres change each time the server is up, so, check on hosts.yml to change, and check Instances on AWS to check the IP

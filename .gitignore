@@ -62,3 +62,8 @@ Thumbs.db
 **/bin/
 **/obj/
 InsuranceAPI/InsuranceAPI.Tests/bin/Debug/net6.0/CoverletSourceRootsMapping
+IaC/env/Dev/IaC-Dev.pub
+.gitignore
+IaC/env/Dev/IaC-Dev
+IaC/env/Prod/IaC-Prod
+IaC/env/Prod/IaC-Prod.pub
